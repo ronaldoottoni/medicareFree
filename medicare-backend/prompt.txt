@@ -1,0 +1,13 @@
+1. python -m venv venv
+.\venv\Scripts\activate
+
+2. pip install fastapi uvicorn sqlalchemy pydantic mysql-connector-python python-jose[cryptography] passlib[bcrypt]
+
+3. rodar uvicorn app.main:app --reload
+
+4. pip install python-dotenv
+
+5. python -m app.init_db #Criar as tabelas
+
+Pasta Models - contém a estrutura das tabelas do banco de dados no MySQL
+Pasta schemas - contém os esquemas para validação dos dados que será utilizado pela API
