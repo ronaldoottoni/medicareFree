@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
+from typing import List
 from sqlalchemy.orm import Session
 from app.schemas.residente import ResidenteCreate, ResidenteOut
 from app.services import residente_service
 from app.deps.db import get_db
-from typing import List
 
 router = APIRouter(prefix="/residentes", tags=["Residentes"])
 

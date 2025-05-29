@@ -10,3 +10,7 @@ router = APIRouter(prefix="/medicamentos", tags=["Medicamentos"])
 @router.post("/", response_model=MedicamentoOut)
 def criar(medicamento: MedicamentoCreate, db: Session = Depends(get_db)):
     return medicamento_service.criar_medicamento(db, medicamento)
+
+@router.get("/", response_model=List[MedicamentoOut])
+def listar(db: Session = Depends(get_db)):
+    return medicamento_service.listar_medicamentos(db)
