@@ -19,3 +19,13 @@ class CuidadorOut(CuidadorBase):
 
     class Config:
         orm_mode = True
+
+
+class CuidadorLogin(BaseModel):
+    email: EmailStr
+    senha: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
