@@ -3,7 +3,7 @@ from app.models.residente import Residente
 from app.schemas.residente import ResidenteCreate
 
 def criar_residente(db: Session, residente: ResidenteCreate):
-    db_residente = Residente(**residente.dict())
+    db_residente = Residente(**residente.model_dump())
     db.add(db_residente)
     db.commit()
     db.refresh(db_residente)
