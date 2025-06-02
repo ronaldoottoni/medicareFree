@@ -8,16 +8,24 @@ from app.deps.auth import get_db, get_current_user
 
 router = APIRouter(prefix="/cuidadores", tags=["Cuidadores"])
 
-@router.post("/", response_model=CuidadorOut)
-def criar(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
+
+@router.post("/register", response_model=CuidadorOut)
+def register(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
+    existente = cuidador_service.buscar_por_email(db, cuidador.email)
+    if existente:
+        raise HTTPException(status_code=400, detail="E-mail já cadastrado")
     return cuidador_service.criar_cuidador(db, cuidador)
 
-@router.get("/", response_model=List[CuidadorOut])
-def listar(db: Session = Depends(get_db)):
-    return cuidador_service.listar_cuidadores(db)
 
-# def register
+@router.post("/login", response_model=Token)
+def login(login_data: CuidadorLogin, db: Session = Depends(get_db)):
+    user = cuidador_service.buscar_por_email(db, login_data.email)
+    if not user or not verificar_senha(login_data.senha, user.senha_hash):
+        raise HTTPException(status_code=401, detail="Credenciais inválidas")
+    token = criar_token({"sub": user.email})
+    return {"access_token": token}
 
-# def login
 
-# def get_me
+@router.get("/me", response_model=CuidadorOut)
+def get_me(current_user=Depends(get_current_user)):
+    return current_user
