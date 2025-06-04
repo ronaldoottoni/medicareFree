@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 
@@ -23,3 +23,7 @@ class AgendamentoOut(AgendamentoBase):
 
     class Config:
         orm_mode = True
+
+
+class AtualizarStatus(BaseModel):
+    status: str = Field(..., strip_whitespace=True, min_length=1)
