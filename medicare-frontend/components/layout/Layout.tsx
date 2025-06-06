@@ -3,6 +3,8 @@
 import styled from 'styled-components'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LayoutWrapper = styled.div`
     display: flex;
@@ -23,11 +25,13 @@ const Content = styled.div`
 export const Layout = ({children} :{children: React.ReactNode}) => {
     return(
         <LayoutWrapper>
+            <ToastContainer position="top-right" autoClose={3000} aria-label={undefined} />
             <Sidebar />
             <Content>
                 <Header />
                 <Main>{children}</Main>
             </Content>
         </LayoutWrapper>
+        
     )
 }
