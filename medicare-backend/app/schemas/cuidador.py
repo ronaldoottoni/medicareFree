@@ -18,7 +18,7 @@ class CuidadorOut(CuidadorBase):
     data_cadastro: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes  = True
 
 
 class CuidadorLogin(BaseModel):

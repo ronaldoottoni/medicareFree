@@ -20,8 +20,16 @@ def register(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
 @router.post("/login", response_model=Token)
 def login(login_data: CuidadorLogin, db: Session = Depends(get_db)):
     user = cuidador_service.buscar_por_email(db, login_data.email)
-    if not user or not verificar_senha(login_data.senha, user.senha_hash):
-        raise HTTPException(status_code=401, detail="Credenciais inválidas")
+
+    if not user:
+        raise HTTPException(status_code=401, detail="Email não encontrado")
+
+    if not user.senha_hash:
+        raise HTTPException(status_code=500, detail="Usuário sem senha registrada")
+
+    if not verificar_senha(login_data.senha, user.senha_hash):
+        raise HTTPException(status_code=401, detail="Senha inválida")
+
     token = criar_token({"sub": user.email})
     return {"access_token": token}
 

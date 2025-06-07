@@ -22,7 +22,7 @@ class AgendamentoOut(AgendamentoBase):
     data_registro: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes  = True
 
 
 class AtualizarStatus(BaseModel):
