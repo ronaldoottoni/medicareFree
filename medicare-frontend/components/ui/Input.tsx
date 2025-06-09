@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
+import { useUniqueId } from '@/lib/useUniqueId'
 
 const InputWrapper = styled.div`
   display: flex;
@@ -41,7 +42,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, id, ...props }, ref) => {
-    const inputId = id || props.name || `input-${Math.random()}`
+    const generatedId = useUniqueId()
+    const inputId = id || props.name || generatedId
     return (
       <InputWrapper>
         {label && <StyledLabel htmlFor={inputId}>{label}</StyledLabel>}

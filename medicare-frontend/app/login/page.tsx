@@ -84,9 +84,9 @@ export default function LoginPage() {
                     onChange={(e) => setSenha(e.target.value)}
                     className="mt-4"
                 />
-    
+
                 {erro && <p style={{ color: 'red', marginTop: 10 }}>{erro}</p>}
-    
+
                 <Button onClick={handleLogin} className="mt-6 w-full" disabled={loading}>
                     {loading ? 'Entrando...' : 'Entrar'}
                 </Button>
