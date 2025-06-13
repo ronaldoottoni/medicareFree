@@ -4,34 +4,33 @@ import styled from 'styled-components'
 import Link from 'next/link'
 
 const SidebarContainer = styled.aside`
-  width: 240px;
-  background-color: #1e293b;
+  width: 220px;
+  background: #1e293b;
   color: white;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  height: 100vh;
+  padding: 2rem 1rem;
 `
 
 const NavLink = styled(Link)`
+  display: block;
   color: white;
   text-decoration: none;
-  padding: 0.5rem 0;
+  margin-bottom: 1rem;
   font-weight: 500;
 
   &:hover {
-    color: #60a5fa;
+    color: #38bdf8;
   }
 `
 
-export const Sidebar = () => {
-    return (
-        <SidebarContainer>
-            <h2>MediCare</h2>
-            <NavLink href="/">Dashboard</NavLink>
-            <NavLink href="/cuidadores">Cuidadores</NavLink>
-            <NavLink href="/residentes">Residentes</NavLink>
-            <NavLink href="/agendamentos">Agendamentos</NavLink>
-        </SidebarContainer>
-    )
+export default function Sidebar() {
+  return (
+    <SidebarContainer>
+      <h2 className="text-xl font-bold mb-6">MediCare</h2>
+      <NavLink href="/dashboard">Dashboard</NavLink>
+      <NavLink href="/cuidadores">Cuidadores</NavLink>
+      <NavLink href="/residentes">Residentes</NavLink>
+      <NavLink href="/agendamentos">Agendamentos</NavLink>
+    </SidebarContainer>
+  )
 }

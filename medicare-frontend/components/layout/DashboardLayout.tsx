@@ -6,21 +6,21 @@ import styled from "styled-components"
 import { ReactNode } from "react"
 
 const LayoutWrapper = styled.div`
-  display: flex;
-  height: 100vh;
+    display: flex;
+    height: 100vh;
 `
 
 const Main = styled.main`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 `
 
 const Content = styled.div`
-  flex: 1;
-  padding: 2rem;
-  background: #f9fafb;
-  overflow-y: auto;
+    flex: 1;
+    padding: 2rem;
+    background: #f9fafb;
+    overflow-y: auto;
 `
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {

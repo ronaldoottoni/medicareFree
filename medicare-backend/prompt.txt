@@ -1,9 +1,11 @@
-1. python -m venv venv
+1. Levantar servidor Backend
+python -m venv venv
 .\venv\Scripts\activate
+uvicorn app.main:app --reload
 
 2. pip install fastapi uvicorn sqlalchemy pydantic mysql-connector-python python-jose[cryptography] passlib[bcrypt]
 
-3. rodar uvicorn app.main:app --reload
+3. rodar 
 
 4. pip install python-dotenv
 

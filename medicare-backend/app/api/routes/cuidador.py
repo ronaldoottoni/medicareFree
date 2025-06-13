@@ -8,7 +8,6 @@ from app.deps.auth import get_db, get_current_user
 
 router = APIRouter(prefix="/cuidadores", tags=["Cuidadores"])
 
-
 @router.post("/register", response_model=CuidadorOut)
 def register(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
     existente = cuidador_service.buscar_por_email(db, cuidador.email)

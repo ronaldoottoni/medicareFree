@@ -5,6 +5,10 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "react-toastify"
 
+import Container from "@/components/ui/Container"
+import Card from "@/components/ui/Card"
+import Title from "@/components/ui/Title"
+
 type Residente = {
     id: number
     nome: string
@@ -12,30 +16,6 @@ type Residente = {
     sexo: string
     observacoes?: string
 }
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  background-color: #f9fafb;
-  padding: 2rem;
-`
-
-const Card = styled.div`
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-`
-
-const Title = styled.h1`
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-`
 
 const ResidenteItem = styled.div`
   border-bottom: 1px solid #e5e7eb;
