@@ -12,11 +12,6 @@ origins = [
     # Adicione outros domínios se necessário
 ]
 
-app.include_router(residente.router)
-app.include_router(cuidador.router)
-app.include_router(medicamento.router)
-app.include_router(agendamento.router)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,              # ou ["*"] para liberar tudo
@@ -24,6 +19,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(cuidador.router)
+app.include_router(residente.router)
+app.include_router(medicamento.router)
+app.include_router(agendamento.router)
 
 @app.get("/")
 def read_root():

@@ -34,7 +34,7 @@ export default function DashboardPage() {
         }
 
         axios
-            .get("http://localhost:8000/agendamentos/alertas?somente_meus=true", {
+            .get("http://localhost:8000/agendamentos/alertas", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -69,10 +69,10 @@ export default function DashboardPage() {
         <ProtectedRoute>
             <DashboardLayout>
                 <div className="p-6">
-                    <h1 className="text-2xl font-bold mb-4">Agendamentos próximos</h1>
+                    <h1 className="text-2xl font-bold mb-4" style={{ color: "#ffffff" }}>Agendamentos próximos</h1>
 
                     {agendamentos.length === 0 && (
-                        <p className="text-gray-500">Nenhum agendamento encontrado.</p>
+                        <p className="text-gray-500" style={{ color: "#dc2626" }}>Nenhum agendamento encontrado.</p>
                     )}
 
                     {agendamentos.map((ag) => (

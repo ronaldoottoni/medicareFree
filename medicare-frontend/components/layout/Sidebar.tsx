@@ -30,6 +30,7 @@ export default function Sidebar() {
       <NavLink href="/dashboard">Dashboard</NavLink>
       <NavLink href="/cuidadores">Cuidadores</NavLink>
       <NavLink href="/residentes">Residentes</NavLink>
+      <NavLink href="/medicamentos">Medicamentos</NavLink>
       <NavLink href="/agendamentos">Agendamentos</NavLink>
     </SidebarContainer>
   )

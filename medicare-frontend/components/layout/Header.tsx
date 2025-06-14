@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation"
 
 const HeaderWrapper = styled.header`
   height: 60px;
-  background: #f1f5f9;
+  background: #292929;
   padding: 0 2rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #555555;
 `
 
 const LogoutButton = styled.button`

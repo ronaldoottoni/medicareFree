@@ -2,34 +2,16 @@
 
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
+import Card from "@/components/ui/Card"
+import Title from "@/components/ui/Title"
+import PageTitle from "@/components/ui/PageTitle"
 import styled from 'styled-components'
+import Container from "@/components/ui/Container"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios";
 import { toast } from "react-toastify"
 
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f9fafb;
-`
-
-const Card = styled.div`
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-`
-
-const Title = styled.div`
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-`
 
 export default function LoginPage() {
     const router = useRouter()
@@ -71,7 +53,7 @@ export default function LoginPage() {
     return (
         <Container>
             <Card>
-                <Title>Login no MediCare</Title>
+                <PageTitle className="grid gap-4 w-full max-w-md mx-auto">MediCare - Login </PageTitle>
                 <Input
                     placeholder="Email"
                     value={email}

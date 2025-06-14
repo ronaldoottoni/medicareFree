@@ -11,7 +11,7 @@ from typing import Optional
 router = APIRouter(prefix="/agendamento", tags=["Agendamentos"])
 
 
-@router.post("/", response_model=AgendamentoOut)
+@router.post("/register", response_model=AgendamentoOut)
 def criar(
     agendamento: AgendamentoCreate,
     db: Session = Depends(get_db),
@@ -20,7 +20,7 @@ def criar(
     return agendamento_service.criar_agendamento(db, agendamento)
 
 
-@router.get("/", response_model=List[AgendamentoOut])
+@router.get("/alertas", response_model=List[AgendamentoOut])
 def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     data: Optional[date] = (Query(None, description="Filtrar por data (YYYY-MM-DD)"),)
     status: Optional[str] = (Query(None, description="Filtrar por status"),)

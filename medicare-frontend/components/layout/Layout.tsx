@@ -19,11 +19,11 @@ const Main = styled.main`
 const Content = styled.div`
   flex: 1;
   padding: 2rem;
-  background: #f9fafb;
+  background: #292929;
   overflow-y: auto;
 `
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <LayoutWrapper>
             <Sidebar />

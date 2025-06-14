@@ -8,7 +8,7 @@ from app.deps.auth import get_db, get_current_user
 router = APIRouter(prefix="/medicamentos", tags=["Medicamentos"])
 
 
-@router.post("/", response_model=MedicamentoOut)
+@router.post("/register", response_model=MedicamentoOut)
 def criar(
     medicamento: MedicamentoCreate,
     db: Session = Depends(get_db),

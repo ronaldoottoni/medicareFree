@@ -1,18 +1,17 @@
 from fastapi import APIRouter, Depends, HTTPException
-from typing import List
 from sqlalchemy.orm import Session
+from typing import List
 from app.schemas.residente import ResidenteCreate, ResidenteOut
 from app.services import residente_service
 from app.deps.auth import get_db, get_current_user
 
 router = APIRouter(prefix="/residentes", tags=["Residentes"])
 
-
-@router.post("/", response_model=ResidenteOut)
+@router.post("/register", response_model=ResidenteOut)
 def criar(
     residente: ResidenteCreate,
     db: Session = Depends(get_db),
-    user=Depends(get_current_user),
+    user=Depends(get_current_user)
 ):
     return residente_service.criar_residente(db, residente)
 

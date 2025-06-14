@@ -1,12 +1,14 @@
 'use client'
 
-import { Layout } from '@/components/layout/Layout'
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
-export default function Home() {
-  return (
-    <Layout>
-      <h1>Dashboard</h1>
-      <p>Bem-vindo ao sistema MediCare Livre</p>
-    </Layout>
-  )
+export default function HomePage() {
+    const router = useRouter()
+
+    useEffect(() => {
+        router.push("/login")
+    }, [router])
+
+    return null
 }
