@@ -36,3 +36,7 @@ def login(login_data: CuidadorLogin, db: Session = Depends(get_db)):
 @router.get("/me", response_model=CuidadorOut)
 def get_me(current_user=Depends(get_current_user)):
     return current_user
+
+@router.get("/listar", response_model=List[CuidadorOut])
+def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
+    return cuidador_service.listar_cuidadores(db)
