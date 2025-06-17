@@ -7,6 +7,7 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute"
 import PageTitle from "@/components/ui/PageTitle"
 import { Button } from "@/components/ui/Button"
 import { toast } from "react-toastify"
+import styled from "styled-components"
 
 type Cuidador = {
   id: number
@@ -16,6 +17,11 @@ type Cuidador = {
   data_cadastro: string
 }
 
+const TableRow = styled.tr<{ index: number }>`
+  background-color: ${({ index }) => (index % 2 === 0 ? "#1e293b" : "#334155")};
+  color: #f1f5f9;
+`
+
 export default function ListaCuidadoresPage() {
   const [cuidadores, setCuidadores] = useState<Cuidador[]>([])
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
@@ -24,8 +30,8 @@ export default function ListaCuidadoresPage() {
     axios.get("http://localhost:8000/cuidadores/listar", {
       headers: { Authorization: `Bearer ${token}` }
     })
-    .then(res => setCuidadores(res.data))
-    .catch(() => toast.error("Erro ao carregar cuidadores"))
+      .then(res => setCuidadores(res.data))
+      .catch(() => toast.error("Erro ao carregar cuidadores"))
   }
 
   const excluirCuidador = async (id: number) => {
@@ -51,8 +57,8 @@ export default function ListaCuidadoresPage() {
         <PageTitle>Lista de Cuidadores</PageTitle>
 
         <div className="overflow-x-auto">
-          <table className="w-full bg-white rounded shadow text-sm">
-            <thead className="bg-slate-800 text-white">
+          <table className="w-full text-sm">
+            <thead className="#1e293b text-white">
               <tr>
                 <th className="text-left px-4 py-2">Nome</th>
                 <th className="text-left px-4 py-2">Email</th>
@@ -62,17 +68,17 @@ export default function ListaCuidadoresPage() {
               </tr>
             </thead>
             <tbody>
-              {cuidadores.map((c) => (
-                <tr key={c.id} className="border-t hover:bg-slate-50">
+              {cuidadores.map((c, i) => (
+                <TableRow key={c.id} index={i}>
                   <td className="px-4 py-2">{c.nome}</td>
                   <td className="px-4 py-2">{c.email}</td>
                   <td className="px-4 py-2">{c.telefone}</td>
                   <td className="px-4 py-2">{new Date(c.data_cadastro).toLocaleDateString()}</td>
                   <td className="px-4 py-2 flex gap-2">
                     <Button onClick={() => alert("Abrir modal de edição")} className="bg-blue-600">Editar</Button>
-                    <Button onClick={() => excluirCuidador(c.id)} className="bg-red-600">Excluir</Button>
+                    <Button onClick={() => excluirCuidador(c.id)} className="background-color:#f80303">Excluir</Button>
                   </td>
-                </tr>
+                </TableRow>
               ))}
               {cuidadores.length === 0 && (
                 <tr>

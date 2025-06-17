@@ -26,7 +26,6 @@ const StyledButton = styled.button`
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean
-
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

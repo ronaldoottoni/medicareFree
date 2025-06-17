@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 const SidebarWrapper = styled.aside`
   width: 220px;
-  background: #1e293b;
+  background: #0f172a;
   color: white;
   height: 100vh;
   padding: 2rem 1rem;

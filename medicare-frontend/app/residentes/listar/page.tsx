@@ -4,10 +4,10 @@ import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "react-toastify"
-
 import Container from "@/components/ui/Container"
 import Card from "@/components/ui/Card"
 import Title from "@/components/ui/Title"
+
 
 type Residente = {
     id: number
