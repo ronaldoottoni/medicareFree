@@ -17,7 +17,7 @@ def criar(
     return medicamento_service.criar_medicamento(db, medicamento)
 
 
-@router.get("/", response_model=List[MedicamentoOut])
+@router.get("/listar", response_model=List[MedicamentoOut])
 def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return medicamento_service.listar_medicamentos(db)
 

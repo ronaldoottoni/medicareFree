@@ -37,7 +37,7 @@ export default function ListaCuidadoresPage() {
   const excluirCuidador = async (id: number) => {
     if (!confirm("Tem certeza que deseja excluir este cuidador?")) return
     try {
-      await axios.delete(`http://localhost:8000/cuidadores/${id}`, {
+      await axios.delete(`http://localhost:8000/cuidadores/excluir/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
       toast.success("Cuidador excluído com sucesso")
