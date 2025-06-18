@@ -16,7 +16,7 @@ def criar(
     return residente_service.criar_residente(db, residente)
 
 
-@router.get("/", response_model=List[ResidenteOut])
+@router.get("/listar", response_model=List[ResidenteOut])
 def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return residente_service.listar_residentes(db)
 

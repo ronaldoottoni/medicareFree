@@ -55,34 +55,33 @@ export default function ListaCuidadoresPage() {
     <ProtectedRoute>
       <DashboardLayout>
         <PageTitle>Lista de Cuidadores</PageTitle>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="#1e293b text-white">
+        <div >
+          <table >
+            <thead >
               <tr>
-                <th className="text-left px-4 py-2">Nome</th>
-                <th className="text-left px-4 py-2">Email</th>
-                <th className="text-left px-4 py-2">Telefone</th>
-                <th className="text-left px-4 py-2">Cadastro</th>
-                <th className="text-left px-4 py-2">Ações</th>
+                <th >Nome</th>
+                <th >Email</th>
+                <th >Telefone</th>
+                <th >Cadastro</th>
+                <th >Ações</th>
               </tr>
             </thead>
             <tbody>
               {cuidadores.map((c, i) => (
                 <TableRow key={c.id} index={i}>
-                  <td className="px-4 py-2">{c.nome}</td>
-                  <td className="px-4 py-2">{c.email}</td>
-                  <td className="px-4 py-2">{c.telefone}</td>
-                  <td className="px-4 py-2">{new Date(c.data_cadastro).toLocaleDateString()}</td>
-                  <td className="px-4 py-2 flex gap-2">
-                    <Button onClick={() => alert("Abrir modal de edição")} className="bg-blue-600">Editar</Button>
-                    <Button onClick={() => excluirCuidador(c.id)} className="background-color:#f80303">Excluir</Button>
+                  <td >{c.nome}</td>
+                  <td >{c.email}</td>
+                  <td >{c.telefone}</td>
+                  <td >{new Date(c.data_cadastro).toLocaleDateString()}</td>
+                  <td >
+                    <Button onClick={() => alert("Abrir em modo de edição")} >Editar</Button>
+                    <Button onClick={() => excluirCuidador(c.id)} >Excluir</Button>
                   </td>
                 </TableRow>
               ))}
               {cuidadores.length === 0 && (
                 <tr>
-                  <td colSpan={5} className="px-4 py-4 text-center text-gray-500">
+                  <td colSpan={5} >
                     Nenhum cuidador encontrado.
                   </td>
                 </tr>
