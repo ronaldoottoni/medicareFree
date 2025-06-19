@@ -8,7 +8,7 @@ from app.deps.auth import get_db, get_current_user
 from app.models.cuidador import Cuidador
 from typing import Optional
 
-router = APIRouter(prefix="/agendamento", tags=["Agendamentos"])
+router = APIRouter(prefix="/agendamentos", tags=["Agendamentos"])
 
 
 @router.post("/register", response_model=AgendamentoOut)
@@ -17,6 +17,7 @@ def criar(
     db: Session = Depends(get_db),
     user=Depends(get_current_user),
 ):
+    
     return agendamento_service.criar_agendamento(db, agendamento)
 
 
@@ -25,13 +26,6 @@ def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     data: Optional[date] = (Query(None, description="Filtrar por data (YYYY-MM-DD)"),)
     status: Optional[str] = (Query(None, description="Filtrar por status"),)
     return agendamento_service.listar_agendamentos(db, data, status)
-
-
-@router.get("/residente/{id_residente}", response_model=List[AgendamentoOut])
-def listar_residente(
-    id_residente: int, db: Session = Depends(get_db), user=Depends(get_current_user)
-):
-    return agendamento_service.listar_por_residente(db, id_residente)
 
 
 @router.get("/{id}", response_model=AgendamentoOut)

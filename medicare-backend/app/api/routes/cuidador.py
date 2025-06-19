@@ -8,6 +8,7 @@ from app.deps.auth import get_db, get_current_user
 
 router = APIRouter(prefix="/cuidadores", tags=["Cuidadores"])
 
+
 @router.post("/register", response_model=CuidadorOut)
 def register(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
     existente = cuidador_service.buscar_por_email(db, cuidador.email)
@@ -33,11 +34,14 @@ def login(login_data: CuidadorLogin, db: Session = Depends(get_db)):
     return {"access_token": token}
 
 
-@router.get("/me", response_model=CuidadorOut)
-def get_me(current_user=Depends(get_current_user)):
-    return current_user
-
 @router.get("/listar", response_model=List[CuidadorOut])
 def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return cuidador_service.listar_cuidadores(db)
 
+
+@router.get("/{id}", response_model=CuidadorOut)
+def buscar(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
+    cuidador = cuidador_service.buscar_cuidador(db, id)
+    if not cuidador_service:
+        raise HTTPException(status_code=404, detail="Cuidador não encontrado")
+    return cuidador

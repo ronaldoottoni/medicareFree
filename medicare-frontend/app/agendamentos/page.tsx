@@ -6,6 +6,7 @@ import Label from "@/components/ui/Label"
 import PageTitle from "@/components/ui/PageTitle"
 import { Button } from "@/components/ui/Button"
 import { Input } from "@/components/ui/Input"
+import LookupField from "@/components/ui/LookupField"
 
 import axios from "axios"
 import { useState, useEffect } from "react"
@@ -13,6 +14,19 @@ import { toast } from "react-toastify"
 import DashboardLayout from "@/components/layout/DashboardLayout"
 
 export default function CadastrarAgendamentoPage() {
+    const [token, setToken] = useState("")
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem("token")
+            if (saved) {
+                setToken(saved)
+                console.log("Token carregado:", saved)
+            } else {
+                console.warn("Token não encontrado")
+            }
+        }
+    }, [])
+
     const [agendamento, setAgendamento] = useState({
         id_residente: "",
         id_cuidador: "",
@@ -24,6 +38,7 @@ export default function CadastrarAgendamentoPage() {
         horaPriDose: ""
 
     })
+    const hojeFormatado = new Date().toISOString().split("T")[0]
 
     const [residentes, setResidentes] = useState([])
     const [nomeResidente, setNomeResidente] = useState("")
@@ -66,7 +81,8 @@ export default function CadastrarAgendamentoPage() {
                 setNomeCuidador("Cuidador não encontrado")
             }
         }
-    })
+        buscarNomeCuidador()
+    }, [agendamento.id_cuidador])
 
     const [medicamentos, setMedicamentos] = useState([])
     const [nomeMedicamento, setNomeMedicamento] = useState("")
@@ -85,10 +101,10 @@ export default function CadastrarAgendamentoPage() {
                 setNomeMedicamento("Medicamento não encontrado")
             }
         }
-    })
+        buscarNomeMedicamento()
+    }, [agendamento.id_medicamento])
 
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
-    const hojeFormatado = new Date().toISOString().split("T")[0]
+
 
     const cadastrar = async () => {
         const { id_residente, id_cuidador, id_medicamento, dosagem, intervalo, dias, dataPriDose, horaPriDose } = agendamento
@@ -118,8 +134,9 @@ export default function CadastrarAgendamentoPage() {
         }
 
         try {
+            console.log("Vai chamar")
             await axios.post("http://localhost:8000/agendamentos/register", agendamento, {
-                headers: { Authorization: `Bearar ${token}` },
+                headers: { Authorization: `Bearer ${token}` },
             })
             toast.success("Agendamentos geraddos com sucesso")
             setAgendamento({ id_residente: "", id_cuidador: "", id_medicamento: "", dosagem: "", intervalo: "", dias: "", dataPriDose: "", horaPriDose: "" })
@@ -134,48 +151,31 @@ export default function CadastrarAgendamentoPage() {
                 <Card>
                     <PageTitle>MediCare - Gerar Agendamentos</PageTitle>
                     <div >
-                        <Label>Residente</Label>
-                        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                            <Input
-                                placeholder="Cód Residente"
-                                value={agendamento.id_residente}
-                                onChange={(e) => setAgendamento({ ...agendamento, id_residente: e.target.value })}
-                                style={{ width: "130px" }}
-                            />
-                            <Input
-                                placeholder="Nome do Residente"
-                                value={nomeResidente}
-                                style={{ color: "#38bdf8", fontSize: "0.9rem", width: "200%" }}
-                            />
-                        </div>
-                        <Label>Cuidador</Label>
-                        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                            <Input
-                                placeholder="Cód Cuidador"
-                                value={agendamento.id_cuidador}
-                                onChange={(e) => setAgendamento({ ...agendamento, id_cuidador: e.target.value })}
-                                style={{ width: "130px" }}
-                            />
-                            <Input
-                                placeholder="Nome do Cuidador"
-                                value={nomeCuidador}
-                                style={{ color: "#38bdf8", fontSize: "0.9rem", width: "200%" }}
-                            />
-                        </div>
-                        <Label>Medicamento</Label>
-                        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                            <Input
-                                placeholder="Cód Medicamento"
-                                value={agendamento.id_medicamento}
-                                onChange={(e) => setAgendamento({ ...agendamento, id_medicamento: e.target.value })}
-                                style={{ width: "130px" }}
-                            />
-                            <Input
-                                placeholder="Nome do Medicamento"
-                                value={nomeMedicamento}
-                                style={{ color: "#38bdf8", fontSize: "0.9rem", width: "200%" }}
-                            />
-                        </div>
+                        <LookupField
+                            label="Residente"
+                            value={agendamento.id_residente}
+                            onChange={(v) => setAgendamento({ ...agendamento, id_residente: v })}
+                            fetchUrl="http://localhost:8000/residentes"
+                            listUrl="http://localhost:8000/residentes/listar"
+                            modalTitle="Selecionar Residente"
+                        />
+                        <LookupField
+                            label="Cuidador"
+                            value={agendamento.id_cuidador}
+                            onChange={(v) => setAgendamento({ ...agendamento, id_cuidador: v })}
+                            fetchUrl="http://localhost:8000/cuidadores"
+                            listUrl="http://localhost:8000/cuidadores/listar"
+                            modalTitle="Selecionar Cuidador"
+                        />
+                        <LookupField
+                            label="Medicamento"
+                            value={agendamento.id_medicamento}
+                            onChange={(v) => setAgendamento({ ...agendamento, id_medicamento: v })}
+                            fetchUrl="http://localhost:8000/medicamentos"
+                            listUrl="http://localhost:8000/medicamentos/listar"
+                            modalTitle="Selecionar Medicamento"
+                        />
+
                         <Label>Dosagem</Label>
                         <Input
                             placeholder="Informe a dosagem receitada"
@@ -234,6 +234,7 @@ export default function CadastrarAgendamentoPage() {
                             </div>
                         </div>
                         <Button onClick={cadastrar}>Gerar Agendamentos</Button>
+
                     </div>
                 </Card>
             </DashboardLayout>

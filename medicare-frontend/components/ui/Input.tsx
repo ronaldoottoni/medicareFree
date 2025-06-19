@@ -8,7 +8,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
 `
 
 const StyledLabel = styled.label`

@@ -1,8 +1,4 @@
 def inserirAgenda():
-    clearScreen()
-    print("+------------------------------------------------+")
-    print("| Agenda de Medicamentos - Inserir Agenda        |")
-    print("+------------------------------------------------+")
 
     idPaciente=input("Informe o ID do Paciente: ")
     medicamento=input("Informe o Nome do Medicamento: ")

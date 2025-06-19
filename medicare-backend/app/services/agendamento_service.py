@@ -3,15 +3,40 @@ from sqlalchemy import and_, func
 from app.models.agendamento import Agendamento
 from app.schemas.agendamento import AgendamentoCreate
 from typing import Optional
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta, datetime, time
 
 
 def criar_agendamento(db: Session, agendamento: AgendamentoCreate):
-    db_agendamento = Agendamento(**agendamento.model_dump())
-    db.add(db_agendamento)
+    dias = int(agendamento.dias)
+    intervalo = int(agendamento.intervalo)
+    dataPri = agendamento.dataPriDose
+    horaPri = agendamento.horaPriDose
+    
+    data_hora_inicial = datetime.strptime(f"{dataPri} {horaPri}", "%Y-%m-%d %H:%M")
+    data_hora_final = data_hora_inicial + timedelta(days=dias)
+
+    horarios = []
+    atual = data_hora_inicial
+
+    while atual <= data_hora_final:
+        horarios.append(atual)
+        atual += timedelta(hours=intervalo)
+
+    agendamentos_gerados = []
+    for horario in horarios:
+        novo = Agendamento(
+            id_residente=agendamento.id_residente,
+            id_cuidador=agendamento.id_cuidador,
+            id_medicamento=agendamento.id_medicamento,
+            horario=horario,
+            dose=agendamento.dosagem,
+            status="A",
+        )
+        db.add(novo)
+        agendamentos_gerados.append(novo)
+
     db.commit()
-    db.refresh(db_agendamento)
-    return db_agendamento
+    return agendamentos_gerados
 
 
 def listar_agendamentos(
