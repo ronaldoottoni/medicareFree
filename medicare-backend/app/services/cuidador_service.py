@@ -28,6 +28,9 @@ def buscar_cuidador(db: Session, id: int):
     return db.query(Cuidador).filter(Cuidador.id == id).first()
 
 
+def buscar_por_email(db: Session, email: str):
+    return db.query(Cuidador).filter(Cuidador.email == email).first()
+
 
 def atualizar_cuidador(db: Session, id: int, dados: CuidadorUpdate):
     db_cuidador = db.query(Cuidador).filter(Cuidador.id == id).first()
