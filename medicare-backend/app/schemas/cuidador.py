@@ -10,6 +10,9 @@ class CuidadorBase(BaseModel):
 
 
 class CuidadorCreate(CuidadorBase):
+    nome: str
+    email: str
+    telefone: str
     senha: str
 
 
@@ -18,7 +21,14 @@ class CuidadorOut(CuidadorBase):
     data_cadastro: datetime
 
     class Config:
-        from_attributes  = True
+        from_attributes = True
+
+
+class CuidadorUpdate(BaseModel):
+    nome: Optional[str]
+    email: Optional[EmailStr]
+    telefone: Optional[str]
+    senha: Optional[str]
 
 
 class CuidadorLogin(BaseModel):

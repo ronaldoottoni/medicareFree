@@ -34,18 +34,6 @@ export default function ListaCuidadoresPage() {
       .catch(() => toast.error("Erro ao carregar cuidadores"))
   }
 
-  const excluirCuidador = async (id: number) => {
-    if (!confirm("Tem certeza que deseja excluir este cuidador?")) return
-    try {
-      await axios.delete(`http://localhost:8000/cuidadores/excluir/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      toast.success("Cuidador excluído com sucesso")
-      carregarCuidadores()
-    } catch {
-      toast.error("Erro ao excluir cuidador")
-    }
-  }
 
   useEffect(() => {
     carregarCuidadores()
@@ -63,7 +51,6 @@ export default function ListaCuidadoresPage() {
                 <th >Email</th>
                 <th >Telefone</th>
                 <th >Cadastro</th>
-                <th >Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -73,10 +60,6 @@ export default function ListaCuidadoresPage() {
                   <td >{c.email}</td>
                   <td >{c.telefone}</td>
                   <td >{new Date(c.data_cadastro).toLocaleDateString()}</td>
-                  <td >
-                    <Button onClick={() => alert("Abrir em modo de edição")} >Editar</Button>
-                    <Button onClick={() => excluirCuidador(c.id)} >Excluir</Button>
-                  </td>
                 </TableRow>
               ))}
               {cuidadores.length === 0 && (

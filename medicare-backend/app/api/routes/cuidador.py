@@ -1,7 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
-from app.schemas.cuidador import CuidadorCreate, CuidadorOut, CuidadorLogin, Token
+from app.schemas.cuidador import (
+    CuidadorCreate,
+    CuidadorOut,
+    CuidadorLogin,
+    Token,
+    CuidadorUpdate,
+)
 from app.services import cuidador_service
 from app.core.security import verificar_senha, criar_token
 from app.deps.auth import get_db, get_current_user
@@ -15,6 +21,20 @@ def register(cuidador: CuidadorCreate, db: Session = Depends(get_db)):
     if existente:
         raise HTTPException(status_code=400, detail="E-mail já cadastrado")
     return cuidador_service.criar_cuidador(db, cuidador)
+
+
+@router.put("/{id}", response_model=CuidadorOut)
+def atualizar_cuidador(
+    id: int,
+    cuidador: CuidadorUpdate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    existente = cuidador_service.buscar_cuidador(db, id)
+    if not existente:
+        raise HTTPException(status_code=404, detail="Cuidador não encontrado")
+
+    return cuidador_service.atualizar_cuidador(db, id, cuidador)
 
 
 @router.post("/login", response_model=Token)
@@ -37,6 +57,16 @@ def login(login_data: CuidadorLogin, db: Session = Depends(get_db)):
 @router.get("/listar", response_model=List[CuidadorOut])
 def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return cuidador_service.listar_cuidadores(db)
+
+
+@router.delete("/excluir/{id}")
+def excluir_cuidador(
+    id: int, db: Session = Depends(get_db), user=Depends(get_current_user)
+):
+    sucesso = cuidador_service.excluir_cuidador(db, id)
+    if not sucesso:
+        raise HTTPException(status_code=404, detail="Cuidador não encontrado")
+    return {"ok": True, "message": "Cuidador excluído com sucesso"}
 
 
 @router.get("/{id}", response_model=CuidadorOut)
