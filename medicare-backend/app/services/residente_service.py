@@ -30,10 +30,11 @@ def atualizar_residente(db: Session, id: int, dados: ResidenteCreate):
     return residente
 
 
-def remover_residente(db: Session, id: int):
+def excluir_residente(db: Session, id: int) -> bool:
     residente = buscar_residente(db, id)
     if not residente:
-        return None
+        return False
+    
     db.delete(residente)
     db.commit()
-    return residente
+    return True

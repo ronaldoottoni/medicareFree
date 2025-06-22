@@ -25,7 +25,6 @@ def listar_cuidadores(db: Session):
 
 
 def buscar_cuidador(db: Session, id: int):
-    print(id)
     return db.query(Cuidador).filter(Cuidador.id == id).first()
 
 
@@ -47,7 +46,7 @@ def atualizar_cuidador(db: Session, id: int, dados: CuidadorUpdate):
 
 
 def excluir_cuidador(db: Session, id: int) -> bool:
-    cuidador = db.query(Cuidador).filter(Cuidador.id == id).first()
+    cuidador = buscar_cuidador(db, int)
     if not cuidador:
         return False
 

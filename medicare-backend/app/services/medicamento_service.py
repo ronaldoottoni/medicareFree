@@ -30,7 +30,7 @@ def atualizar_medicamento(db: Session, id: int, dados: MedicamentoCreate):
     return medicamento
 
 
-def remover_medicamento(db: Session, id: int):
+def excluir_medicamento(db: Session, id: int):
     medicamento = buscar_medicamento(db, id)
     if not medicamento:
         return None

@@ -7,11 +7,12 @@ from app.deps.auth import get_db, get_current_user
 
 router = APIRouter(prefix="/residentes", tags=["Residentes"])
 
+
 @router.post("/register", response_model=ResidenteOut)
 def criar(
     residente: ResidenteCreate,
     db: Session = Depends(get_db),
-    user=Depends(get_current_user)
+    user=Depends(get_current_user),
 ):
     return residente_service.criar_residente(db, residente)
 
@@ -42,9 +43,11 @@ def atualizar(
     return atualizado
 
 
-@router.delete("/{id}")
-def remover(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    removido = residente_service.remover_residente(db, id)
+@router.delete("/excluir/{id}")
+def excluir_residente(
+    id: int, db: Session = Depends(get_db), user=Depends(get_current_user)
+):
+    removido = residente_service.excluir_residente(db, id)
     if not removido:
         return HTTPException(status_code=404, detail="Residente não removido")
     return {"ok": True, "message": "Residente removido com sucesso"}

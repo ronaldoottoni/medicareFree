@@ -34,7 +34,8 @@ def buscar(id: int, db: Session = Depends(get_db), user=Depends(get_current_user
 def atualizar(
     id: int,
     dados: MedicamentoCreate,
-    db: Session = Depends(get_db), user=Depends(get_current_user),
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
 ):
     atualizado = medicamento_service.atualizar_medicamento(db, id, dados)
     if not atualizado:
@@ -42,9 +43,11 @@ def atualizar(
     return atualizado
 
 
-@router.delete("/{id}")
-def remover(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    removido = medicamento_service.remover_medicamento(db, id)
+@router.delete("/excluir/{id}")
+def excluir_medicamento(
+    id: int, db: Session = Depends(get_db), user=Depends(get_current_user)
+):
+    removido = medicamento_service.excluir_medicamento(db, id)
     if not removido:
         return HTTPException(status_code=404, detail="Medicamento não removido")
     return {"ok": True, "message": "Medicamento removido com sucesso"}

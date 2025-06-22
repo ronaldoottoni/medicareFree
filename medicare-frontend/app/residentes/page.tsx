@@ -19,7 +19,22 @@ export default function CadastroResidentesPage() {
         observacoes: ""
     })
 
+    const [residentes, setResidentes] = useState<any[]>([])
+    const [modoEdicao, setModoEdicao] = useState(false)
+    const [idEdicao, setIdEdicao] = useState<number | null>(null)
+
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
+
+    const buscarResidentes = async () => {
+        try {
+            const res = await axios.get("http://localhost:8000/residentes/listar", {
+                headers: { Authorization: `Bearer ${token}`}
+            })
+            setResidentes(res.data)
+        } catch {
+            toast.error("Erro ao buscar residentes")
+        }
+    }
 
     const cadastrarResidente = async () => {
         const { nome, data_nascimento, sexo, observacoes } = residente
@@ -28,14 +43,14 @@ export default function CadastroResidentesPage() {
             return
         }
 
-         //console.log("Residente enviado:", residente)
+        //console.log("Residente enviado:", residente)
 
         try {
             await axios.post("http://localhost:8000/residentes/register", residente, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             toast.success("Residente cadastrado com sucesso")
-            setResidente({ nome: "", data_nascimento: "", sexo: "", observacoes: ""})
+            setResidente({ nome: "", data_nascimento: "", sexo: "", observacoes: "" })
         } catch {
             toast.error("Erro ao cadastrar residente")
         }
@@ -78,6 +93,10 @@ export default function CadastroResidentesPage() {
                         onChange={(e) => setResidente({ ...residente, observacoes: e.target.value })}
                     />
                     <Button onClick={cadastrarResidente}> Cadastrar Residente </Button>
+                </Card>
+                <br></br>
+                <Card className="mt-8">
+                    <PageTitle></PageTitle>
                 </Card>
             </Layout>
         </ProtectedRoute>
