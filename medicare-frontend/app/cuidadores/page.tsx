@@ -1,14 +1,14 @@
 'use client'
 
+import axios from "axios"
 import Layout from "@/components/layout/Layout"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
+import Card from "@/components/ui/Card"
+import Label from "@/components/ui/Label"
+import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
-import Label from "@/components/ui/Label"
-import Card from "@/components/ui/Card"
-import PageTitle from "@/components/ui/PageTitle"
 import { useState, useEffect } from "react"
-import axios from "axios"
 import { toast } from "react-toastify"
 
 export default function CadastroCuidadoresPage() {

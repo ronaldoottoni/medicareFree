@@ -1,5 +1,6 @@
 'use client'
 
+import axios from "axios"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 import Layout from "@/components/layout/Layout"
 import Card from "@/components/ui/Card"
@@ -7,8 +8,6 @@ import Label from "@/components/ui/Label"
 import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
-
-import axios from "axios"
 import { useState } from "react"
 import { toast } from "react-toastify"
 
