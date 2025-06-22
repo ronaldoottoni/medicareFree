@@ -8,7 +8,7 @@ import Label from "@/components/ui/Label"
 import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 export default function CadastroResidentesPage() {
@@ -28,7 +28,7 @@ export default function CadastroResidentesPage() {
     const buscarResidentes = async () => {
         try {
             const res = await axios.get("http://localhost:8000/residentes/listar", {
-                headers: { Authorization: `Bearer ${token}`}
+                headers: { Authorization: `Bearer ${token}` }
             })
             setResidentes(res.data)
         } catch {
@@ -36,31 +36,81 @@ export default function CadastroResidentesPage() {
         }
     }
 
-    const cadastrarResidente = async () => {
+     useEffect(() => {
+        if (token) buscarResidentes()
+      }, [token])
+
+    const editarResidente = async (id: number) => {
+        try {
+            const res = await axios.get(`htto://localhost:8000/residentes/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+
+            setResidente({
+                nome: res.data.nome || "",
+                data_nascimento: res.data.data_nascimento || "",
+                sexo: res.data.sexo || "",
+                observacoes: res.data.observacoes || ""
+            })
+
+            setModoEdicao(true)
+            setIdEdicao(id)
+        } catch {
+            toast.error("Erro ao carregar residente para edição")
+        }
+    }
+
+    const salvarOuEditar = async () => {
         const { nome, data_nascimento, sexo, observacoes } = residente
-        if (!nome || !data_nascimento || !sexo) {
-            toast.warn("Preencha todos os campos obrigatórios")
+        if (!nome || !data_nascimento || (!sexo && !modoEdicao)) {
+            toast.warn("Nome, Data Nascimento e sexo são obrigatórios")
             return
         }
 
-        //console.log("Residente enviado:", residente)
-
         try {
-            await axios.post("http://localhost:8000/residentes/register", residente, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            toast.success("Residente cadastrado com sucesso")
+            if (modoEdicao && idEdicao !== null) {
+                const payload = { nome, data_nascimento, sexo, observacoes }
+
+                await axios.put(`http://localhost:8000/residentes/${idEdicao}`, payload, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                toast.success("Residente atualizado")
+            } else {
+                await axios.post(`http://localhost:8000/residentes/register`, residente, {
+                    headers: { Authorization: `Bearer ${token}` }
+                })
+                toast.success("Residente cadastrado com sucesso")
+            }
+
             setResidente({ nome: "", data_nascimento: "", sexo: "", observacoes: "" })
+            setModoEdicao(false)
+            setIdEdicao(null)
+            buscarResidentes()
+
         } catch {
-            toast.error("Erro ao cadastrar residente")
+            toast.error("Erro ao salvar residente")
         }
     }
+
+    const excluiResidente = async (id: number) => {
+        if (!confirm("Tem certeza que deseja excluir este residente?")) return
+        try {
+            await axios.delete(`http://localhost:8000/residentes/excluir/${id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            toast.success("Residente excluído com sucesso")
+            buscarResidentes()
+        } catch {
+            toast.error("Erro ao excluir residente")
+        }
+    }
+
 
     return (
         <ProtectedRoute>
             <Layout>
                 <Card>
-                    <PageTitle>MediCare - Cadastrar Residente</PageTitle>
+                    <PageTitle>MediCare - {modoEdicao ? "Editar Residente" : "Cadastrar Residente"}</PageTitle>
                     <Label>Nome Completo</Label>
                     <Input
                         placeholder="Nome completo"
@@ -92,11 +142,34 @@ export default function CadastroResidentesPage() {
                         value={residente.observacoes}
                         onChange={(e) => setResidente({ ...residente, observacoes: e.target.value })}
                     />
-                    <Button onClick={cadastrarResidente}> Cadastrar Residente </Button>
+                    <Button onClick={salvarOuEditar}> {modoEdicao ? "Salvar Alterações" : "Cadastrar Residente"} </Button>
                 </Card>
                 <br></br>
                 <Card className="mt-8">
-                    <PageTitle></PageTitle>
+                    <PageTitle>Residentes Cadastrados</PageTitle>
+                    <table style={{ width: "100%", marginTop: "1rem", borderCollapse: "collapse" }}>
+                        <thead>
+                            <tr style={{ backgroundColor: "#1f2937", color: "#fff" }}>
+                                <th>Nome</th>
+                                <th>Data Nascimento</th>
+                                <th>Sexo</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {residentes.map((c, i) => (
+                                <tr key={c.id} style={{ backgroundColor: i % 2 === 0 ? "#374151" : "#4b5563", color: "#f1f5f9" }}>
+                                    <td>{c.nome}</td>
+                                    <td>{new Date(c.data_nascimento).toLocaleDateString()}</td>
+                                    <td>{c.sexo}</td>
+                                    <td>
+                                        <Button onClick={() => editarResidente(c.id)}>Editar</Button>
+                                        <Button onClick={() => excluiResidente(c.id)} >Excluir</Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </Card>
             </Layout>
         </ProtectedRoute>
