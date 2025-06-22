@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field
-from datetime import datetime
+from datetime import datetime, date, time
 from typing import Optional
+
+from .residente import ResidenteOut
+from .cuidador import CuidadorOut
+from .medicamento import MedicamentoOut
 
 
 class AgendamentoBase(BaseModel):
@@ -9,21 +13,35 @@ class AgendamentoBase(BaseModel):
     id_cuidador: int
     horario: datetime
     dose: Optional[str] = None
-    observacoes: Optional[str] = None
     status: Optional[str] = None
 
 
-class AgendamentoCreate(AgendamentoBase):
-    pass
+class AgendamentoCreate(BaseModel):
+    id_residente: int
+    id_cuidador: int
+    id_medicamento: int
+    dosagem: str
+    intervalo: int  # em horas
+    dias: int
+    dataPriDose: date
+    horaPriDose: time
 
 
-class AgendamentoOut(AgendamentoBase):
+class AgendamentoOut(BaseModel):
     id: int
-    data_registro: datetime
+    horario: datetime
+    dose: str
+    status: str
+    id_residente: int
+    id_cuidador: int
+    id_medicamento: int
+    residente: Optional[ResidenteOut]
+    cuidador: Optional[CuidadorOut]
+    medicamento: Optional[MedicamentoOut]
 
     class Config:
-        from_attributes  = True
+        from_attributes = True
 
 
 class AtualizarStatus(BaseModel):
-    status: str = Field(..., strip_whitespace=True, min_length=1)
+    status: str

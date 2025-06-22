@@ -4,6 +4,7 @@ from app.models.agendamento import Agendamento
 from app.schemas.agendamento import AgendamentoCreate
 from typing import Optional
 from datetime import date, timedelta, datetime, time
+import logging
 
 
 def criar_agendamento(db: Session, agendamento: AgendamentoCreate):
@@ -11,16 +12,23 @@ def criar_agendamento(db: Session, agendamento: AgendamentoCreate):
     intervalo = int(agendamento.intervalo)
     dataPri = agendamento.dataPriDose
     horaPri = agendamento.horaPriDose
-    
+    horaPri = horaPri.strftime("%H:%M")
+
+    logger = logging.getLogger(__name__)
+
     data_hora_inicial = datetime.strptime(f"{dataPri} {horaPri}", "%Y-%m-%d %H:%M")
-    data_hora_final = data_hora_inicial + timedelta(days=dias)
 
     horarios = []
     atual = data_hora_inicial
 
-    while atual <= data_hora_final:
+    dosesDia = int(24 / intervalo)
+    dosesTotal = dosesDia * dias
+
+    logger.info(f"⏳ Calculando horários com base nos dados: {agendamento}")
+    for x in range(dosesTotal):
+        if x > 0:
+            atual += timedelta(hours=intervalo)
         horarios.append(atual)
-        atual += timedelta(hours=intervalo)
 
     agendamentos_gerados = []
     for horario in horarios:
@@ -30,24 +38,27 @@ def criar_agendamento(db: Session, agendamento: AgendamentoCreate):
             id_medicamento=agendamento.id_medicamento,
             horario=horario,
             dose=agendamento.dosagem,
-            status="A",
+            status="pendente",
         )
         db.add(novo)
         agendamentos_gerados.append(novo)
 
     db.commit()
-    return agendamentos_gerados
+    return agendamentos_gerados[-1]
 
 
 def listar_agendamentos(
     db: Session, data: Optional[date] = None, status: Optional[str] = None
 ):
     query = db.query(Agendamento)
-
+    status = "pendente"
+    
     if data:
         query = query.filter(func.date(Agendamento.horario) == data)
     if status:
         query = query.filter(Agendamento.status == status)
+        
+    query = query.order_by(Agendamento.horario.asc())
 
     return query.all()
 
@@ -58,43 +69,6 @@ def listar_por_residente(db: Session, id_residente: int):
 
 def buscar_agendamento(db: Session, id: int):
     return db.query(Agendamento).filter(Agendamento.id == id).first()
-
-
-def atualizar_agendamento(db: Session, id: int, dados: AgendamentoCreate):
-    agendamento = buscar_agendamento(db, id)
-    if not agendamento:
-        return None
-    for key, value in dados.model_dump().items():
-        setattr(agendamento, key, value)
-    db.commit()
-    db.refresh(agendamento)
-    return agendamento
-
-
-def remover_agendamento(db: Session, id: int):
-    agendamento = buscar_agendamento(db, id)
-    if not agendamento:
-        return None
-    db.delete(agendamento)
-    db.commit()
-    return agendamento
-
-
-def buscar_alertas(db: Session, id_cuidador: Optional[int] = None):
-    agora = datetime.now()
-    inicio = agora - timedelta(minutes=30)
-    fim = agora + timedelta(minutes=30)
-
-    query = db.query(Agendamento).filter(
-        func.date(Agendamento.horario) == agora.date(),
-        Agendamento.status == "pendente",
-        Agendamento.horario.between(inicio, fim),
-    )
-
-    if id_cuidador:
-        query = query.filter(Agendamento.id_cuidador == id_cuidador)
-
-    return query.all()
 
 
 def atualizar_status(db: Session, id: int, novo_status: str):

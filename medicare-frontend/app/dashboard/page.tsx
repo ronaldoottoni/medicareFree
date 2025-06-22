@@ -1,103 +1,105 @@
 'use client'
 
+import DashboardLayout from "@/components/layout/DashboardLayout"
+import PageTitle from "@/components/ui/PageTitle"
+import Card from "@/components/ui/Card"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
-import DashboardLayout from "@/components/layout/Layout"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
+import { useToken } from "@/app/hooks/useToken"
+import { Button } from "@/components/ui/Button"
 
-type Agendamento = {
-    id: number
-    horario: string
-    status: string
-    dose: string
-    observacoes: string
-    residente: {
-        nome: string
-    }
-    medicamento: {
-        nome: string
-    }
+interface Agendamento {
+  id: number
+  residente: { nome: string }
+  cuidador: { nome: string }
+  medicamento: { nome: string }
+  dose: string
+  horario: string
+  status: string
 }
 
-export default function DashboardPage() {
-    const [agendamentos, setAgendamentos] = useState<Agendamento[]>([])
-    const router = useRouter()
+export default function AgendamentosDashboard() {
+  const { token, carregando } = useToken()
+  const [agendamentos, setAgendamentos] = useState<Agendamento[]>([])
 
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null
-
-    useEffect(() => {
-        if (!token) {
-            router.push("/login")
-            return
-        }
-
-        axios
-            .get("http://localhost:8000/agendamentos/alertas", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            })
-            .then((res) => setAgendamentos(res.data))
-            .catch((err) => {
-                toast.error("Erro ao carregar agendamentos")
-                if (err.response?.status === 401) router.push("/login")
-            })
-    }, [])
-
-    const atualizarStatus = async (id: number, novoStatus: string) => {
-        try {
-            await axios.patch(`http://localhost:8000/agendamentos/${id}/status`,
-                { status: novoStatus },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            )
-            toast.success("Status atualizado!")
-            setAgendamentos(prev =>
-                prev.map(ag => ag.id === id ? { ...ag, status: novoStatus } : ag)
-            )
-        } catch {
-            toast.error("Erro ao atualizar status")
-        }
+  const buscarAgendamentos = async () => {
+    if (token) {
+      try {
+        const res = await axios.get("http://localhost:8000/agendamentos/alertas", {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        setAgendamentos(res.data)
+      } catch {
+        toast.error("Erro ao buscar agendamentos")
+      }
     }
+  }
 
-    return (
-        <ProtectedRoute>
-            <DashboardLayout>
-                <div className="p-6">
-                    <h1 className="text-2xl font-bold mb-4" style={{ color: "#ffffff" }}>Agendamentos próximos</h1>
+  const atualizarStatus = async (id: number) => {
+    try {
+      await axios.patch(
+        `http://localhost:8000/agendamentos/${id}/status`,
+        { status: "realizado" },
+        { headers: { Authorization: `Bearer ${token}` } }
+      )
+      toast.success("Status atualizado com sucesso")
+      buscarAgendamentos() // Atualiza a listagem
+    } catch (error: any) {
+      toast.error("Erro ao atualizar status")
+      console.error(error)
+    }
+  }
 
-                    {agendamentos.length === 0 && (
-                        <p className="text-gray-500" style={{ color: "#dc2626" }}>Nenhum agendamento encontrado.</p>
-                    )}
+  useEffect(() => {
+    if (!carregando && token) {
+      buscarAgendamentos()
+    }
+  }, [carregando, token])
 
-                    {agendamentos.map((ag) => (
-                        <div key={ag.id} className="border p-4 mb-3 rounded-md shadow-sm bg-white">
-                            <div className="flex justify-between items-center">
-                                <div>
-                                    <p className="font-semibold">{ag.residente.nome}</p>
-                                    <p className="text-sm text-gray-700">Medicamento: {ag.medicamento.nome}</p>
-                                    <p className="text-sm text-gray-600">Horário: {new Date(ag.horario).toLocaleString()}</p>
-                                    <p className="text-sm text-gray-500">Dose: {ag.dose}</p>
-                                    <p className="text-sm text-gray-500">Status: {ag.status}</p>
-                                </div>
-                                <div className="flex flex-col gap-2">
-                                    <button onClick={() => atualizarStatus(ag.id, "tomado")} className="bg-green-500 text-white px-2 py-1 rounded">
-                                        Marcar como tomado
-                                    </button>
-                                    <button onClick={() => atualizarStatus(ag.id, "atrasado")} className="bg-yellow-500 text-white px-2 py-1 rounded">
-                                        Atrasado
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </DashboardLayout>
-        </ProtectedRoute>
-    )
+  if (carregando) return null
+
+  return (
+    <ProtectedRoute>
+      <DashboardLayout>
+
+        <PageTitle>Agendamentos Atuais</PageTitle>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr style={{ backgroundColor: "#1f2937", color: "#fff" }}>
+              <th>Residente</th>
+              <th>Cuidador</th>
+              <th>Medicamento</th>
+              <th>Dosagem</th>
+              <th>Horário</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {agendamentos.map((a, i) => (
+              <tr key={a.id} style={{ backgroundColor: i % 2 === 0 ? "#374151" : "#4b5563", color: "#f1f5f9" }}>
+                <td>{a.residente?.nome}</td>
+                <td>{a.cuidador?.nome}</td>
+                <td>{a.medicamento?.nome}</td>
+                <td>{a.dose}</td>
+                <td>{new Date(a.horario).toLocaleString("pt-BR")}</td>
+                <td>{a.status}</td>
+                <td>
+                  <Button
+                    onClick={() => atualizarStatus(a.id)}
+                    disabled={a.status === 'realizado'}
+                  >
+                    {a.status === 'realizado' ? '✔️ Realizado' : 'Marcar como Realizado'}
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </DashboardLayout>
+    </ProtectedRoute>
+  )
 }

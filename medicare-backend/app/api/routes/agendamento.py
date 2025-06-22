@@ -5,9 +5,10 @@ from typing import List
 from app.schemas.agendamento import AgendamentoCreate, AgendamentoOut, AtualizarStatus
 from app.services import agendamento_service
 from app.deps.auth import get_db, get_current_user
-from app.models.cuidador import Cuidador
 from typing import Optional
+import logging
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/agendamentos", tags=["Agendamentos"])
 
 
@@ -17,54 +18,21 @@ def criar(
     db: Session = Depends(get_db),
     user=Depends(get_current_user),
 ):
-    
+    logger.info("🔄 Iniciando criação de agendamento")
+    logger.info(f"📦 Payload recebido: {agendamento}")
+    logger.info(f"👤 Usuário autenticado: {user.email}")
+
     return agendamento_service.criar_agendamento(db, agendamento)
 
 
 @router.get("/alertas", response_model=List[AgendamentoOut])
-def listar(db: Session = Depends(get_db), user=Depends(get_current_user)):
-    data: Optional[date] = (Query(None, description="Filtrar por data (YYYY-MM-DD)"),)
-    status: Optional[str] = (Query(None, description="Filtrar por status"),)
+def listar_agendamentos(
+    data: Optional[date] = Query(None, description="Filtrar por data (YYYY-MM-DD)"),
+    status: Optional[str] = Query(None, description="Filtrar por status"),
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
     return agendamento_service.listar_agendamentos(db, data, status)
-
-
-@router.get("/{id}", response_model=AgendamentoOut)
-def buscar(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    agendamento = agendamento_service.buscar_agendamento(db, id)
-    if not agendamento:
-        return HTTPException(status_code=404, detail="Agendamento não encontrado")
-    return agendamento
-
-
-@router.put("/{id}", response_model=AgendamentoOut)
-def atualizar(
-    id: int,
-    dados: AgendamentoCreate,
-    db: Session = Depends(get_db),
-    user=Depends(get_current_user),
-):
-    atualizado = agendamento_service.atualizar_agendamento(db, id, dados)
-    if not atualizado:
-        raise HTTPException(status_code=4 - 4, detail="Agendamento não encontrado")
-    return atualizado
-
-
-@router.delete("/{id}")
-def remover(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    removido = agendamento_service.remover_agendamento(db, id)
-    if not removido:
-        raise HTTPException(status_code=404, detail="Agendamento não removido")
-    return {"ok": True, "message": "Agendamento removido com sucesso"}
-
-
-@router.get("/alertas", response_model=List[AgendamentoOut])
-def alertas(
-    somente_meus: Optional[bool] = False,
-    db: Session = Depends(get_db),
-    user=Depends(get_current_user),
-):
-    id_cuidador = user.id if somente_meus else None
-    return agendamento_service.buscar_alertas(db, id_cuidador)
 
 
 @router.patch("/{id}/status", response_model=AgendamentoOut)
@@ -76,5 +44,5 @@ def atualizar_status(
 ):
     atualizado = agendamento_service.atualizar_status(db, id, payload.status)
     if not atualizado:
-        raise HTTPException(status_code=404, detail="Agendamento não atualizado")
+        raise HTTPException(status_code=4 - 4, detail="Agendamento não encontrado")
     return atualizado

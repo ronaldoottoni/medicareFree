@@ -12,7 +12,6 @@ class Agendamento(Base):
     id_cuidador = Column(Integer, ForeignKey("cuidadores.id"), nullable=False)
     horario = Column(DateTime, nullable=False)
     dose = Column(String(50), nullable=False)
-    observacoes = Column(Text)
     status = Column(String(20), default="pendente")  # 'pendente', 'concluido', 'cancelado'
     data_registro = Column(DateTime, default=datetime.utcnow)
     

@@ -1,6 +1,7 @@
 'use client'
 
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
+import DashboardLayout from "@/components/layout/DashboardLayout"
 import Card from "@/components/ui/Card"
 import Label from "@/components/ui/Label"
 import PageTitle from "@/components/ui/PageTitle"
@@ -11,22 +12,10 @@ import LookupField from "@/components/ui/LookupField"
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
-import DashboardLayout from "@/components/layout/DashboardLayout"
+import { useToken } from "@/app/hooks/useToken"
 
 export default function CadastrarAgendamentoPage() {
-    const [token, setToken] = useState("")
-    useEffect(() => {
-        if (typeof window !== "undefined") {
-            const saved = localStorage.getItem("token")
-            if (saved) {
-                setToken(saved)
-                console.log("Token carregado:", saved)
-            } else {
-                console.warn("Token não encontrado")
-            }
-        }
-    }, [])
-
+    const { token, carregando } = useToken()
     const [agendamento, setAgendamento] = useState({
         id_residente: "",
         id_cuidador: "",
@@ -38,10 +27,15 @@ export default function CadastrarAgendamentoPage() {
         horaPriDose: ""
 
     })
+
     const hojeFormatado = new Date().toISOString().split("T")[0]
 
     const [residentes, setResidentes] = useState([])
     const [nomeResidente, setNomeResidente] = useState("")
+    const [cuidadores, setCuidadores] = useState([])
+    const [nomeCuidador, setNomeCuidador] = useState("")
+    const [medicamentos, setMedicamentos] = useState([])
+    const [nomeMedicamento, setNomeMedicamento] = useState("")
 
     useEffect(() => {
         const buscarNomeResidente = async () => {
@@ -63,9 +57,6 @@ export default function CadastrarAgendamentoPage() {
         buscarNomeResidente()
     }, [agendamento.id_residente])
 
-    const [cuidadores, setCuidadores] = useState([])
-    const [nomeCuidador, setNomeCuidador] = useState("")
-
     useEffect(() => {
         const buscarNomeCuidador = async () => {
             if (!agendamento.id_cuidador) {
@@ -84,8 +75,6 @@ export default function CadastrarAgendamentoPage() {
         buscarNomeCuidador()
     }, [agendamento.id_cuidador])
 
-    const [medicamentos, setMedicamentos] = useState([])
-    const [nomeMedicamento, setNomeMedicamento] = useState("")
     useEffect(() => {
         const buscarNomeMedicamento = async () => {
             if (!agendamento.id_medicamento) {
@@ -104,7 +93,7 @@ export default function CadastrarAgendamentoPage() {
         buscarNomeMedicamento()
     }, [agendamento.id_medicamento])
 
-
+    if (carregando) return null
 
     const cadastrar = async () => {
         const { id_residente, id_cuidador, id_medicamento, dosagem, intervalo, dias, dataPriDose, horaPriDose } = agendamento
@@ -125,16 +114,17 @@ export default function CadastrarAgendamentoPage() {
             return
         }
 
+
         const hoje = new Date()
         hoje.setHours(0, 0, 0, 0)
         const dataSelecionada = new Date(agendamento.dataPriDose)
-        if (!agendamento.dataPriDose || dataSelecionada < hoje) {
+
+        if (!dataSelecionada || dataSelecionada < hoje) {
             toast.warn("A data da primeira dose deve ser hoje ou uma data futura")
             return
         }
 
         try {
-            console.log("Vai chamar")
             await axios.post("http://localhost:8000/agendamentos/register", agendamento, {
                 headers: { Authorization: `Bearer ${token}` },
             })
@@ -152,6 +142,7 @@ export default function CadastrarAgendamentoPage() {
                     <PageTitle>MediCare - Gerar Agendamentos</PageTitle>
                     <div >
                         <LookupField
+                            key={agendamento.id_residente}
                             label="Residente"
                             value={agendamento.id_residente}
                             onChange={(v) => setAgendamento({ ...agendamento, id_residente: v })}
