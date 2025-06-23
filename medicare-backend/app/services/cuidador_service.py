@@ -33,20 +33,20 @@ def buscar_por_email(db: Session, email: str):
 
 
 def atualizar_cuidador(db: Session, id: int, dados: CuidadorUpdate):
-    db_cuidador = db.query(Cuidador).filter(Cuidador.id == id).first()
-    if not db_cuidador:
+    cuidador = buscar_cuidador(db, id)
+    if not cuidador:
         raise HTTPException(status_code=404, detail="Cuidador não encontrado")
 
     for campo, valor in dados.model_dump(exclude_unset=True).items():
-        setattr(db_cuidador, campo, valor)
+        setattr(cuidador, campo, valor)
 
     db.commit()
-    db.refresh(db_cuidador)
-    return db_cuidador
+    db.refresh(cuidador)
+    return cuidador
 
 
 def excluir_cuidador(db: Session, id: int) -> bool:
-    cuidador = buscar_cuidador(db, int)
+    cuidador = buscar_cuidador(db, id)
     if not cuidador:
         return False
 

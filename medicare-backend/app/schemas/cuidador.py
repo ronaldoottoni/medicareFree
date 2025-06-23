@@ -26,7 +26,7 @@ class CuidadorOut(CuidadorBase):
 
 class CuidadorUpdate(BaseModel):
     nome: Optional[str]
-    email: Optional[EmailStr]
+    email: Optional[str]
     telefone: Optional[str]
     senha: Optional[str]
 

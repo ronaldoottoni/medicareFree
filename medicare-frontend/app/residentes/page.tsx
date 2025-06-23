@@ -36,19 +36,23 @@ export default function CadastroResidentesPage() {
         }
     }
 
-     useEffect(() => {
+    useEffect(() => {
         if (token) buscarResidentes()
-      }, [token])
+    }, [token])
 
     const editarResidente = async (id: number) => {
         try {
-            const res = await axios.get(`htto://localhost:8000/residentes/${id}`, {
+            const res = await axios.get(`http://localhost:8000/residentes/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
 
+            const formatarData = (data: string) => {
+                const d = new Date(data)
+                return d.toISOString().split("T")[0] // retorna "YYYY-MM-DD"
+            }
             setResidente({
                 nome: res.data.nome || "",
-                data_nascimento: res.data.data_nascimento || "",
+                data_nascimento: res.data.data_nascimento ? formatarData(res.data.data_nascimento) : "",
                 sexo: res.data.sexo || "",
                 observacoes: res.data.observacoes || ""
             })

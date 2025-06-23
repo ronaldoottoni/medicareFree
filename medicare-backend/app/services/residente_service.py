@@ -1,6 +1,10 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 from app.models.residente import Residente
-from app.schemas.residente import ResidenteCreate
+from app.schemas.residente import ResidenteCreate, ResidenteUpdate
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def criar_residente(db: Session, residente: ResidenteCreate):
@@ -19,12 +23,14 @@ def buscar_residente(db: Session, id: int):
     return db.query(Residente).filter(Residente.id == id).first()
 
 
-def atualizar_residente(db: Session, id: int, dados: ResidenteCreate):
+def atualizar_residente(db: Session, id: int, dados: ResidenteUpdate):
     residente = buscar_residente(db, id)
     if not residente:
-        return None
-    for key, value in dados.model_dump().items():
-        setattr(residente, key, value)
+        raise HTTPException(status_code=404, detail="Residenteuidador não encontrado")
+
+    for campo, valor in dados.model_dump(exclude_unset=True).items():
+        setattr(residente, campo, valor)
+
     db.commit()
     db.refresh(residente)
     return residente
@@ -34,7 +40,7 @@ def excluir_residente(db: Session, id: int) -> bool:
     residente = buscar_residente(db, id)
     if not residente:
         return False
-    
+
     db.delete(residente)
     db.commit()
     return True

@@ -70,8 +70,10 @@ def excluir_cuidador(
 
 
 @router.get("/{id}", response_model=CuidadorOut)
-def buscar(id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
+def buscar_cuidador(
+    id: int, db: Session = Depends(get_db), user=Depends(get_current_user)
+):
     cuidador = cuidador_service.buscar_cuidador(db, id)
-    if not cuidador_service:
+    if not cuidador:
         raise HTTPException(status_code=404, detail="Cuidador não encontrado")
     return cuidador
