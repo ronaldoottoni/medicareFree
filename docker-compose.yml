@@ -10,7 +10,7 @@ services:
       MYSQL_USER: cuidador
       MYSQL_PASSWORD: CuidadorFree
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
 
