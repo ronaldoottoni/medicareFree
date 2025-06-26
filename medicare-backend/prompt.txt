@@ -13,3 +13,7 @@ uvicorn app.main:app --reload
 
 Pasta Models - contém a estrutura das tabelas do banco de dados no MySQL
 Pasta schemas - contém os esquemas para validação dos dados que será utilizado pela API
+
+subir o container (raiz do projeto)
+docker-compose up --build
+
