@@ -4,7 +4,6 @@ import Sidebar from "./Sidebar"
 import Header from "./Header"
 import styled from "styled-components"
 import { ReactNode } from "react"
-import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 
 // Dentro do seu componente de layout:
@@ -34,7 +33,6 @@ export default function Layout({ children }: { children: ReactNode }) {
             <Main>
                 <Header />
                 <Content>{children}</Content>
-                <ToastContainer position="top-right" autoClose={5000} />
             </Main>
         </LayoutWrapper>
     )
