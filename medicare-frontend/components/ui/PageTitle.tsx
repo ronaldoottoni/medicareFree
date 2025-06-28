@@ -6,7 +6,7 @@ const PageTitle = styled.div`
     font-size: 1.5rem;
     font-weight: 600;
     margin-botttom: 1.5rem;
-    color: #f1f5f9
+    color: #f1f5f9;
     text-align: center;
     && {
         color: #f1f5f9;
