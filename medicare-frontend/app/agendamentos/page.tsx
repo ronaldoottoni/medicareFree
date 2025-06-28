@@ -11,8 +11,8 @@ import LookupField from "@/components/ui/LookupField"
 
 import axios from "axios"
 import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
 import { useToken } from "@/app/hooks/useToken"
+import { toast } from "sonner"
 
 export default function CadastrarAgendamentoPage() {
     const { token, carregando } = useToken()

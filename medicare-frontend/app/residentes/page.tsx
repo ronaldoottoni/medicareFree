@@ -9,7 +9,7 @@ import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
 import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 export default function CadastroResidentesPage() {
     const [residente, setResidente] = useState({
@@ -67,7 +67,7 @@ export default function CadastroResidentesPage() {
     const salvarOuEditar = async () => {
         const { nome, data_nascimento, sexo, observacoes } = residente
         if (!nome || !data_nascimento || (!sexo && !modoEdicao)) {
-            toast.warn("Nome, Data Nascimento e sexo são obrigatórios")
+            toast("Nome, Data Nascimento e sexo são obrigatórios")
             return
         }
 

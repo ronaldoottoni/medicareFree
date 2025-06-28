@@ -4,7 +4,7 @@ import Sidebar from "./Sidebar"
 import Header from "./Header"
 import styled from "styled-components"
 import { ReactNode } from "react"
-import "react-toastify/ReactToastify.css"
+import { Toaster } from "sonner"
 
 const LayoutWrapper = styled.div`
     display: flex;
@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             <Main>
                 <Header />
                 <Content>{children}</Content>
-                
+                <Toaster richColors position="top-right" />
             </Main>
         </LayoutWrapper>
     )

@@ -4,11 +4,11 @@
 
 # MediCare Free - Projeto FullStack com Docker
 
+## ▶️ 🚀 Como subir e executar o projeto com container
+
 ## ✅ Requisitos
 - Docker instalado (https://www.docker.com/products/docker-desktop)
 - Download do projeto no GitHub (https://github.com/ronaldoottoni/medicareFree.git)
-
-## ▶️ 🚀 Como subir e executar o projeto
 
 1. Extraia o `.zip`
 

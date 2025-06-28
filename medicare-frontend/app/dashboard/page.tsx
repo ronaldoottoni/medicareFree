@@ -5,9 +5,9 @@ import ProtectedRoute from "@/components/auth/ProtectedRoute"
 import DashboardLayout from "@/components/layout/DashboardLayout"
 import PageTitle from "@/components/ui/PageTitle"
 import { useEffect, useState, useRef } from "react"
-import { toast } from "react-toastify"
 import { useToken } from "@/app/hooks/useToken"
 import { Button } from "@/components/ui/Button"
+import { toast } from "sonner"
 
 interface Agendamento {
   id: number
@@ -65,7 +65,7 @@ export default function AgendamentosDashboard() {
         console.log("🕒 Agora:", agora.toISOString())
 
         if (ag.status === "pendente" && horario <= agora && !jaAlertado) {
-          toast.warn(`⚠️ Hora de medicar ${ag.residente?.nome} com ${ag.medicamento?.nome}`, {
+          toast(`⚠️ Hora de medicar ${ag.residente?.nome} com ${ag.medicamento?.nome}`, {
             autoClose: false,
           })
           alertadosRef.current.add(ag.id)

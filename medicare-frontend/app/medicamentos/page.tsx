@@ -9,7 +9,7 @@ import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
 import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 export default function CadastroMedicamentosPage() {
     const [medicamento, setMedicamento] = useState({
@@ -64,7 +64,7 @@ export default function CadastroMedicamentosPage() {
     const salvarOuEditar = async () => {
         const { nome, descricao, tipo, observacoes } = medicamento
         if (!nome || !descricao || (!tipo && !modoEdicao)) {
-            toast.warn("Preencha todos os campos obrogatórios")
+            toast("Preencha todos os campos obrogatórios")
             return
         }
 

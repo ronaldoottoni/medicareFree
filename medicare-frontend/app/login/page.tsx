@@ -10,7 +10,7 @@ import Container from "@/components/ui/Container"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import axios from "axios";
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 
 export default function LoginPage() {

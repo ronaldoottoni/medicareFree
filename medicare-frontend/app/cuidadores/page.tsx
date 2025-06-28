@@ -9,7 +9,7 @@ import PageTitle from "@/components/ui/PageTitle"
 import { Input } from "@/components/ui/Input"
 import { Button } from "@/components/ui/Button"
 import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+import { toast } from "sonner"
 
 export default function CadastroCuidadoresPage() {
   const [cuidador, setCuidador] = useState({
@@ -32,7 +32,7 @@ export default function CadastroCuidadoresPage() {
       })
       setCuidadores(res.data)
     } catch {
-      toast.error("Erro ao buscar cuidadores")
+      toast.error("❌ Erro ao buscar cuidadores")
     }
   }
 
@@ -50,36 +50,37 @@ export default function CadastroCuidadoresPage() {
         nome: res.data.nome || "",
         email: res.data.email || "",
         telefone: res.data.telefone || "",
-        senha: "" // senha não vem do backend
+        senha: ""
       })
 
       setModoEdicao(true)
       setIdEdicao(id)
     } catch {
-      toast.error("Erro ao carregar cuidador para edição")
+      toast.error("⚠️ Erro ao carregar cuidador para edição")
     }
   }
 
   const salvarOuEditar = async () => {
     const { nome, email, telefone, senha } = cuidador
     if (!nome || !email || (!modoEdicao && !senha)) {
-      toast.warn("Nome, e-mail e senha são obrigatórios")
+      toast.warning("⚠️ Nome, e-mail e senha são obrigatórios")
       return
     }
 
     try {
       if (modoEdicao && idEdicao !== null) {
-        const payload = { nome, email, telefone, senha }
+        const payload = { nome, email, telefone }
+        if (senha) payload["senha"] = senha
 
         await axios.put(`http://localhost:8000/cuidadores/${idEdicao}`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         })
-        toast.success("Cuidador atualizado")
+        toast.success("✅ Cuidador atualizado com sucesso")
       } else {
         await axios.post("http://localhost:8000/cuidadores/register", cuidador, {
           headers: { Authorization: `Bearer ${token}` },
         })
-        toast.success("Cuidador cadastrado com sucesso")
+        toast.success("✅ Cuidador cadastrado com sucesso")
       }
 
       setCuidador({ nome: "", email: "", telefone: "", senha: "" })
@@ -87,7 +88,7 @@ export default function CadastroCuidadoresPage() {
       setIdEdicao(null)
       buscarCuidadores()
     } catch {
-      toast.error("Erro ao salvar cuidador")
+      toast.error("❌ Erro ao salvar cuidador")
     }
   }
 
@@ -97,10 +98,10 @@ export default function CadastroCuidadoresPage() {
       await axios.delete(`http://localhost:8000/cuidadores/excluir/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      toast.success("Cuidador excluído com sucesso")
+      toast.success("🗑️ Cuidador excluído com sucesso")
       buscarCuidadores()
     } catch {
-      toast.error("Erro ao excluir cuidador")
+      toast.error("❌ Erro ao excluir cuidador")
     }
   }
 
@@ -143,8 +144,8 @@ export default function CadastroCuidadoresPage() {
             </Button>
           </div>
         </Card>
-        
-        <br></br>
+
+        <br />
 
         <Card className="mt-8">
           <PageTitle>Cuidadores Cadastrados</PageTitle>
@@ -163,7 +164,7 @@ export default function CadastroCuidadoresPage() {
                   <td>{c.email}</td>
                   <td>
                     <Button onClick={() => editarCuidador(c.id)}>Editar</Button>
-                    <Button onClick={() => excluirCuidador(c.id)} >Excluir</Button>
+                    <Button onClick={() => excluirCuidador(c.id)}>Excluir</Button>
                   </td>
                 </tr>
               ))}
