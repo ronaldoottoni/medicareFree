@@ -4,8 +4,8 @@ import Sidebar from "./Sidebar"
 import Header from "./Header"
 import styled from "styled-components"
 import { ReactNode } from "react"
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/ReactToastify.css"
 
 const LayoutWrapper = styled.div`
     display: flex;
