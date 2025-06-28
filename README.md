@@ -12,5 +12,6 @@ Projeto Final UNINTER
     docker-compose up --build
 
 4. Acesse:
-- Frontend: [http://localhost:3000](http://localhost:3000)
-- Backend: [http://localhost:8000/docs](http://localhost:8000/docs)
+- Sistema: [http://localhost:3000](http://localhost:3000)
+- Login: admin@medicare.com
+- Senha: admin123

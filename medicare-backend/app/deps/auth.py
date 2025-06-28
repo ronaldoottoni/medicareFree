@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 from app.core.security import verificar_token
-from app.core.database import Sessionlocal
+from app.core.database import SessionLocal
 from app.models.cuidador import Cuidador
 from sqlalchemy.orm import Session
 
@@ -10,7 +10,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="cuidadores/login")
 
 
 def get_db():
-    db = Sessionlocal()
+    db = SessionLocal()
     try:
         yield db
     finally:
