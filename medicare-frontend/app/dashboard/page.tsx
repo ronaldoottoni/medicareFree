@@ -90,39 +90,40 @@ export default function AgendamentosDashboard() {
     <ProtectedRoute>
       <DashboardLayout>
         <PageTitle>Agendamentos Atuais</PageTitle>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
-            <thead>
-              <tr style={{ backgroundColor: "#1f2937", color: "#fff" }}>
-                <th>Residente</th>
-                <th>Cuidador</th>
-                <th>Medicamento</th>
-                <th>Dosagem</th>
-                <th>Horário</th>
-                <th>Status</th>
-                <th>Ação</th>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr style={{ backgroundColor: "#1f2937", color: "#fff" }}>
+              <th>Residente</th>
+              <th>Cuidador</th>
+              <th>Medicamento</th>
+              <th>Dosagem</th>
+              <th>Horário</th>
+              <th>Status</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody>
+            {agendamentos.map((a, i) => (
+              <tr key={a.id} style={{ backgroundColor: i % 2 === 0 ? "#374151" : "#4b5563", color: "#f1f5f9" }}>
+                <td>{a.residente?.nome}</td>
+                <td>{a.cuidador?.nome}</td>
+                <td>{a.medicamento?.nome}</td>
+                <td>{a.dose}</td>
+                <td>{new Date(a.horario).toLocaleString("pt-BR")}</td>
+                <td>{a.status}</td>
+                <td><center>
+                  <Button
+                    onClick={() => atualizarStatus(a.id)}
+                    disabled={a.status === 'realizado'}
+                  >
+                    {a.status === 'realizado' ? '✔️ Realizado' : 'Marcar como Realizado'}
+                  </Button>
+                </center>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {agendamentos.map((a, i) => (
-                <tr key={a.id} style={{ backgroundColor: i % 2 === 0 ? "#374151" : "#4b5563", color: "#f1f5f9" }}>
-                  <td>{a.residente?.nome}</td>
-                  <td>{a.cuidador?.nome}</td>
-                  <td>{a.medicamento?.nome}</td>
-                  <td>{a.dose}</td>
-                  <td>{new Date(a.horario).toLocaleString("pt-BR")}</td>
-                  <td>{a.status}</td>
-                  <td>
-                    <Button
-                      onClick={() => atualizarStatus(a.id)}
-                      disabled={a.status === 'realizado'}
-                    >
-                      {a.status === 'realizado' ? '✔️ Realizado' : 'Marcar como Realizado'}
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            ))}
+          </tbody>
+        </table>
       </DashboardLayout>
     </ProtectedRoute>
   )

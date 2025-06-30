@@ -2,13 +2,25 @@
 
 import styled from 'styled-components'
 import Link from 'next/link'
+import { useState } from 'react'
 
-const SidebarWrapper = styled.aside`
+const SidebarWrapper = styled.aside<{ open: boolean }>`
   width: 220px;
   background: #0f172a;
   color: white;
   height: 100vh;
   padding: 2rem 1rem;
+  position: fixed;
+  top: 0;
+  left: ${({ open }) => (open ? '0' : '-220px')};
+  transition: left 0.3s ease;
+  z-index: 1000;
+
+  @media (min-width: 768px) {
+    left: 0;
+    position: static;
+    height: 100%;
+  }
 `
 
 const NavItem = styled(Link)`
@@ -23,16 +35,39 @@ const NavItem = styled(Link)`
   }
 `
 
-export default function Sidebar() {
-  return (
-    <SidebarWrapper>
-      <h2 className="text-xl font-bold mb-6">MediCare</h2>
+const ToggleButton = styled.button`
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  background: #0f172a;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  z-index: 1100;
 
-      <NavItem href="/dashboard">Dashboard</NavItem>
-      <NavItem href="/cuidadores">Cuidadores</NavItem>
-      <NavItem href="/residentes">Residentes</NavItem>
-      <NavItem href="/medicamentos">Medicamentos</NavItem>
-      <NavItem href="/agendamentos">Agendamentos</NavItem>
-    </SidebarWrapper>
+  @media (min-width: 768px) {
+    display: none;
+  }
+`
+
+export default function Sidebar() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <>
+      <ToggleButton onClick={() => setOpen(!open)}>
+        ☰
+      </ToggleButton>
+
+      <SidebarWrapper open={open}>
+        <h2 className="text-xl font-bold mb-6">MediCare</h2>
+
+        <NavItem href="/dashboard" onClick={() => setOpen(false)}>Dashboard</NavItem>
+        <NavItem href="/cuidadores" onClick={() => setOpen(false)}>Cuidadores</NavItem>
+        <NavItem href="/residentes" onClick={() => setOpen(false)}>Residentes</NavItem>
+        <NavItem href="/medicamentos" onClick={() => setOpen(false)}>Medicamentos</NavItem>
+        <NavItem href="/agendamentos" onClick={() => setOpen(false)}>Agendamentos</NavItem>
+      </SidebarWrapper>
+    </>
   )
 }

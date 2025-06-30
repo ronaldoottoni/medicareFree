@@ -8,7 +8,7 @@ import { Toaster } from "sonner"
 
 const LayoutWrapper = styled.div`
   display: flex;
-  height: 100vh;
+  min-height: 100hv;
 `
 
 const Main = styled.main`
