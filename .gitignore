@@ -28,3 +28,4 @@ medicare-backend/app/services/__pycache__/agendamento_service.cpython-313.pyc
 medicare-backend/app/services/__pycache__/cuidador_service.cpython-313.pyc
 medicare-backend/app/services/__pycache__/medicamento_service.cpython-313.pyc
 medicare-backend/app/services/__pycache__/residente_service.cpython-313.pyc
+*.pyc

@@ -23,13 +23,15 @@ export default function AgendamentosDashboard() {
   const { token, carregando } = useToken()
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([])
   const alertadosRef = useRef<Set<number>>(new Set())
+  const [somenteMeu, setSomenteMeu] = useState(false)
 
   const buscarAgendamentos = async () => {
     if (token) {
       try {
-        const res = await axios.get("http://localhost:8000/agendamentos/alertas", {
+        const res = await axios.get(`http://localhost:8000/agendamentos/alertas?somenteMeu=${somenteMeu}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
+
         setAgendamentos(res.data)
       } catch {
         toast.error("Erro ao buscar agendamentos")
@@ -65,9 +67,7 @@ export default function AgendamentosDashboard() {
         console.log("🕒 Agora:", agora.toISOString())
 
         if (ag.status === "pendente" && horario <= agora && !jaAlertado) {
-          toast(`⚠️ Hora de medicar ${ag.residente?.nome} com ${ag.medicamento?.nome}`, {
-            autoClose: false,
-          })
+          toast(`⚠️ Hora de medicar ${ag.residente?.nome} com ${ag.medicamento?.nome}`,)
           alertadosRef.current.add(ag.id)
         }
       })
@@ -82,7 +82,7 @@ export default function AgendamentosDashboard() {
     if (!carregando && token) {
       buscarAgendamentos()
     }
-  }, [carregando, token])
+  }, [carregando, token, somenteMeu])
 
   if (carregando) return null
 
@@ -90,6 +90,18 @@ export default function AgendamentosDashboard() {
     <ProtectedRoute>
       <DashboardLayout>
         <PageTitle>Agendamentos Atuais</PageTitle>
+        <div style={{ marginBottom: "1rem", color: "#fff" }}>
+          <label>
+            <input
+              type="checkbox"
+              checked={somenteMeu}
+              onChange={(e) => setSomenteMeu(e.target.checked)}
+              style={{ marginRight: "8px" }}
+            />
+            Mostrar apenas meus agendamentos
+          </label>
+        </div>
+
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ backgroundColor: "#1f2937", color: "#fff" }}>
