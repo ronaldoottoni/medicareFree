@@ -8,7 +8,7 @@ medicare-backend/app/core/__pycache__/security.cpython-313.pyc
 /medicare-backend/app/api/routes
 *.pyc
 *.pyc
-*.pyc
+medicare-backend*.pyc
 medicare-backend/app/api/routes/__pycache__/agendamento.cpython-313.pyc
 medicare-backend/app/api/routes/__pycache__/cuidador.cpython-313.pyc
 medicare-backend/app/api/routes/__pycache__/medicamento.cpython-313.pyc
