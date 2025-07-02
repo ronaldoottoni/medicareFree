@@ -40,6 +40,8 @@ def listar_agendamentos(
     query = db.query(Agendamento).filter(
         Agendamento.horario <= agora,
         Agendamento.status == "pendente"
+    ).order_by(
+        Agendamento.horario
     )
 
     if somenteMeu:
