@@ -1,7 +1,7 @@
 'use client'
 
 import axios from "axios"
-import Layout from "@/components/layout/Layout"
+import DashboardLayout from "@/components/layout/DashboardLayout"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 import Card from "@/components/ui/Card"
 import Label from "@/components/ui/Label"
@@ -107,7 +107,7 @@ export default function CadastroCuidadoresPage() {
 
   return (
     <ProtectedRoute>
-      <Layout>
+      <DashboardLayout>
         <Card>
           <PageTitle className="grid gap-4 w-full max-w-md mx-auto">
             MediCare - {modoEdicao ? "Editar Cuidador" : "Cadastrar Cuidador"}
@@ -171,7 +171,7 @@ export default function CadastroCuidadoresPage() {
             </tbody>
           </table>
         </Card>
-      </Layout>
+      </DashboardLayout>
     </ProtectedRoute>
   )
 }

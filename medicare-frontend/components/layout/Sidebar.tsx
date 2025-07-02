@@ -9,7 +9,7 @@ const SidebarWrapper = styled.aside<{ open: boolean }>`
   background: #0f172a;
   color: white;
   height: 100vh;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   position: fixed;
   top: 0;
   left: ${({ open }) => (open ? '0' : '-220px')};
@@ -19,7 +19,7 @@ const SidebarWrapper = styled.aside<{ open: boolean }>`
   @media (min-width: 768px) {
     left: 0;
     position: static;
-    height: 100%;
+    height: auto;
   }
 `
 

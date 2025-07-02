@@ -1,7 +1,7 @@
 'use client'
 
 import axios from "axios"
-import Layout from "@/components/layout/Layout"
+import DashboardLayout from "@/components/layout/DashboardLayout"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 import Card from "@/components/ui/Card"
 import Label from "@/components/ui/Label"
@@ -112,7 +112,7 @@ export default function CadastroResidentesPage() {
 
     return (
         <ProtectedRoute>
-            <Layout>
+            <DashboardLayout>
                 <Card>
                     <PageTitle>MediCare - {modoEdicao ? "Editar Residente" : "Cadastrar Residente"}</PageTitle>
                     <Label>Nome Completo</Label>
@@ -175,7 +175,7 @@ export default function CadastroResidentesPage() {
                         </tbody>
                     </table>
                 </Card>
-            </Layout>
+            </DashboardLayout>
         </ProtectedRoute>
     )
 }

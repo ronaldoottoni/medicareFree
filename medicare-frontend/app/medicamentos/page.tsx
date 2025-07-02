@@ -2,7 +2,7 @@
 
 import axios from "axios"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
-import Layout from "@/components/layout/Layout"
+import DashboardLayout from "@/components/layout/DashboardLayout"
 import Card from "@/components/ui/Card"
 import Label from "@/components/ui/Label"
 import PageTitle from "@/components/ui/PageTitle"
@@ -106,7 +106,7 @@ export default function CadastroMedicamentosPage() {
 
     return (
         <ProtectedRoute>
-            <Layout>
+            <DashboardLayout>
                 <Card>
                     <PageTitle>MediCare - Cadastrar Medicamento</PageTitle>
                     <Label>Nome do Mecidamento</Label>
@@ -162,7 +162,7 @@ export default function CadastroMedicamentosPage() {
                         </tbody>
                     </table>
                 </Card>
-            </Layout>
+            </DashboardLayout>
         </ProtectedRoute>
     )
 }
