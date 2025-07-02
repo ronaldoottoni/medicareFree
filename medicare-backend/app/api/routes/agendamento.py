@@ -1,11 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from datetime import date
+from datetime import date, datetime
 from typing import List
 from app.schemas.agendamento import AgendamentoCreate, AgendamentoOut, AtualizarStatus
 from app.services import agendamento_service
 from app.deps.auth import get_db, get_current_user
 from typing import Optional
+from app.models.cuidador import Cuidador
+from app.models.agendamento import Agendamento
 import logging
 
 logger = logging.getLogger(__name__)
@@ -27,12 +29,25 @@ def criar(
 
 @router.get("/alertas", response_model=List[AgendamentoOut])
 def listar_agendamentos(
-    data: Optional[date] = Query(None, description="Filtrar por data (YYYY-MM-DD)"),
-    status: Optional[str] = Query(None, description="Filtrar por status"),
+    somenteMeu: bool = Query(False),
     db: Session = Depends(get_db),
-    user=Depends(get_current_user),
+    user: Cuidador = Depends(get_current_user),
 ):
-    return agendamento_service.listar_agendamentos(db, data, status)
+    agora = datetime.utcnow()
+    logger.info(f"📅 Listando agendamentos pendentes até {agora.isoformat()}")
+    logger.info(f"🔒 Filtro 'somenteMeu' ativado: {somenteMeu} (User ID: {user.id})")
+
+    query = db.query(Agendamento).filter(
+        Agendamento.horario <= agora,
+        Agendamento.status == "pendente"
+    )
+
+    if somenteMeu:
+        query = query.filter(Agendamento.id_cuidador == user.id)
+
+    agendamentos = query.all()
+    logger.info(f"🔍 {len(agendamentos)} agendamentos encontrados")
+    return agendamentos
 
 
 @router.patch("/{id}/status", response_model=AgendamentoOut)
