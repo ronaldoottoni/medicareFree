@@ -1,83 +1,122 @@
-# ADS - Análise e Desenvolvimento de Sistemas
-# Aluno: Ronaldo Ottoni Borges de Carvalho
-# RU: 4385395
+# MediCare Livre
 
-# MediCare Free - Projeto FullStack, podendo rodar com Docker ou Localmente
+MediCare Livre is a healthcare management platform developed to help caregivers and care facilities organize daily routines, medication schedules, resident information, and care activities.
 
-## ▶️ 🚀 Como subir e executar o projeto localmente
-- Node.JS instalado (https://nodejs.org/en/download)
-- MySQL Instalado (https://dev.mysql.com/downloads/installer/)
-- Download do projeto no GitHub (https://github.com/ronaldoottoni/medicareFree.git)
+The project was originally created as part of my software development degree final project and later expanded as a practical full-stack application using modern web technologies.
 
-1. Extraia o `.zip`
+The main goal is to simplify daily care management and reduce manual tracking by providing a centralized and user-friendly platform.
 
-2. Abrir um terminal (pode ser via VSCode)
-    - Acessar a pasta do backend e rodar os comandos um de cada vez
-        cd medicare-backend 
-        python -m venv venv
-        .\venv\Scripts\activate
-        uvicorn app.main:app --reload
+## Features
 
-3. Abrir um segundo terminal (pode ser via VSCode)
-    - Acessar a pasta do frontend e rodar o comando
-        cd medicare-frontend
-        npm run dev
+### Authentication
 
-4. Acessar
-    - Sistema: [http://localhost:3000]
-    - Login: admin@medicare.com
-    - Senha: admin123
+* User registration
+* Secure login with JWT authentication
+* Password encryption
 
-5. Cadastre Novos cuidadores
+### Resident Management
 
-6. Cadastre Novos Residentes
+* Resident registration
+* Personal information management
+* Resident status tracking
 
-7. Cadastre Novos medicamentos
+### Caregiver Management
 
-8. Cadastre Novos agendamentos
+* Caregiver registration
+* User profile management
 
-9. Veja o painel de medicações no Dashboard
+### Medication Management
 
+* Medication registration
+* Schedule management
+* Medication tracking
 
-## ▶️ 🚀 Como subir e executar o projeto com container 
+### Appointment Management
 
-## ✅ Requisitos
-- Docker instalado (https://www.docker.com/products/docker-desktop)
-- Download do projeto no GitHub (https://github.com/ronaldoottoni/medicareFree.git)
+* Appointment scheduling
+* Activity tracking
+* Status updates
 
-1. Extraia o `.zip`
+### Dashboard
 
-2. Vá até a pasta medicare-backend:
-    cd medicare/medicare-backend
+* Overview of daily activities
+* Quick access to important information
 
-    abrir o arquivo ".env"
-    alterar o conteúdo da variável MYSQL_HOST:
-        de: localhost
-        para: db
-        "MYSQL_HOST=localhost" => "MYSQL_HOST=db"
+## Technology Stack
 
-3. volte na pasta  raiz do projeto:
-    cd ..
+### Frontend
 
-3. Suba os containers:
-    docker-compose up --build
-    
-4. Acesse:
-- Sistema: [http://localhost:3000]
-- Login: admin@medicare.com
-- Senha: admin123
+* React
+* TypeScript
+* Vite
+* Shadcn/UI
 
-5. Cadastre Novos cuidadores
+### Backend
 
-6. Cadastre Novos Residentes
+* FastAPI
+* Python
+* JWT Authentication
 
-7. Cadastre Novos medicamentos
+### Database
 
-8. Cadastre Novos agendamentos
+* MySQL
 
-9. Veja o painel de medicações no Dashboard
+### Development Tools
 
+* Docker
+* Git
+* GitHub
 
+## Project Architecture
 
+The application follows a separated frontend and backend architecture:
 
+Frontend:
 
+* React + TypeScript
+* Component-based design
+* API integration
+
+Backend:
+
+* FastAPI REST API
+* Authentication layer
+* Business rules and validation
+
+Database:
+
+* MySQL relational database
+
+## Why I Built This Project
+
+Healthcare professionals often rely on spreadsheets, notebooks, or disconnected systems to manage daily care routines.
+
+MediCare Livre was created to provide a more organized and efficient way to manage residents, caregivers, medications, and appointments in a single platform.
+
+Besides solving a real-world problem, the project was also an opportunity to deepen my experience with modern web development technologies and API design.
+
+## Current Status
+
+✅ Functional Prototype
+
+Core modules are implemented and operational.
+
+Future improvements may include:
+
+* Notification system
+* Mobile application
+* Reporting module
+* Multi-user permissions
+* Advanced dashboards
+
+## Screenshots
+
+Screenshots will be added as the project evolves.
+
+## Author
+
+Ronaldo Carvalho
+
+Full Stack Developer
+
+React • TypeScript • FastAPI • Python • MySQL • Node.js • COBOL
