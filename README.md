@@ -1,10 +1,16 @@
 # MediCare Livre
 
-MediCare Livre is a healthcare management platform developed to help caregivers and care facilities organize daily routines, medication schedules, resident information, and care activities.
+MediCare Livre is a healthcare management platform designed to help caregivers and care facilities organize daily routines, medication schedules, resident information, and care activities.
 
-The project was originally created as part of my software development degree final project and later expanded as a practical full-stack application using modern web technologies.
+The project was developed as the final project for my Software Development degree program.
 
-The main goal is to simplify daily care management and reduce manual tracking by providing a centralized and user-friendly platform.
+Its purpose was to build a complete healthcare management platform while applying modern full-stack development practices using React, FastAPI, and MySQL.
+
+## Project Status
+
+✅ Completed Academic Project
+
+This project was successfully completed as part of my Software Development degree program and remains available as a portfolio project demonstrating full-stack development with React, FastAPI, and MySQL.
 
 ## Features
 
@@ -28,7 +34,7 @@ The main goal is to simplify daily care management and reduce manual tracking by
 ### Medication Management
 
 * Medication registration
-* Schedule management
+* Medication schedule management
 * Medication tracking
 
 ### Appointment Management
@@ -69,49 +75,46 @@ The main goal is to simplify daily care management and reduce manual tracking by
 
 ## Project Architecture
 
-The application follows a separated frontend and backend architecture:
+The application follows a separated frontend and backend architecture.
 
-Frontend:
+### Frontend
 
 * React + TypeScript
 * Component-based design
-* API integration
+* REST API integration
 
-Backend:
+### Backend
 
 * FastAPI REST API
 * Authentication layer
 * Business rules and validation
 
-Database:
+### Database
 
 * MySQL relational database
 
 ## Why I Built This Project
 
-Healthcare professionals often rely on spreadsheets, notebooks, or disconnected systems to manage daily care routines.
+Healthcare professionals often rely on spreadsheets, paper records, or disconnected systems to manage daily care routines.
 
-MediCare Livre was created to provide a more organized and efficient way to manage residents, caregivers, medications, and appointments in a single platform.
+MediCare Livre was created to provide a more organized and efficient way to manage residents, caregivers, medications, and appointments within a single platform.
 
-Besides solving a real-world problem, the project was also an opportunity to deepen my experience with modern web development technologies and API design.
+The project also served as an opportunity to apply modern software development concepts, including API design, authentication, database modeling, and frontend-backend integration.
 
-## Current Status
+## Key Learning Areas
 
-✅ Functional Prototype
+During the development of this project, I worked with:
 
-Core modules are implemented and operational.
-
-Future improvements may include:
-
-* Notification system
-* Mobile application
-* Reporting module
-* Multi-user permissions
-* Advanced dashboards
+* Full-stack web application architecture
+* REST API development
+* JWT authentication
+* Database modeling and relationships
+* Frontend and backend integration
+* Containerized development with Docker
 
 ## Screenshots
 
-Screenshots will be added as the project evolves.
+Screenshots will be added in future updates.
 
 ## Author
 
@@ -119,4 +122,6 @@ Ronaldo Carvalho
 
 Full Stack Developer
 
-React • TypeScript • FastAPI • Python • MySQL • Node.js • COBOL
+20+ years building business applications
+
+React • TypeScript • FastAPI • Node.js • MySQL • PostgreSQL • COBOL
