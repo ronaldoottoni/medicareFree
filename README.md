@@ -73,6 +73,10 @@ This project was successfully completed as part of my Software Development degre
 * Git
 * GitHub
 
+## How to Run
+
+docker compose up --build
+
 ## Project Architecture
 
 The application follows a separated frontend and backend architecture.
