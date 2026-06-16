@@ -37,11 +37,12 @@ CREATE TABLE `cuidadores` (
 
 --
 -- Dumping data for table `cuidadores`
+-- Demo@123
 --
 
 LOCK TABLES `cuidadores` WRITE;
 /*!40000 ALTER TABLE `cuidadores` DISABLE KEYS */;
-INSERT INTO `cuidadores` VALUES (1,'Ronaldo Ottoni','ronaldoottoni@gmail.com','$2b$12$9L6K/leG2pi5m8UIEJIlsO7et7YevawXL4KFJIexgX2BroePYXqxq','+5541991471108','2025-06-07 14:45:59'),(2,'Ronaldo Ottoni','ronaldo@medicare.com','$2b$12$PbeMEIX7d2UC3gB/eMVAU.pnZLkV3hsLkXlIzXsl1pZK.E7EjaT42','+5541991471108','2025-06-07 14:49:01'),(3,'Geovana Sales','geovana@medicare.com','$2b$12$wuvSWKUTaTqoiA9cI8vLeu9ZgzvMzjti5zcS285vzApKU.40xcQYG','41991471108','2025-06-14 14:10:04'),(4,'Ana Julia','ana@medicare.com','$2b$12$hEejtc1KwAO5274Rq3u/8e05lwnF8SwrMDi.AMz7aHK5ZPzC0BeBy','41991471108','2025-06-14 14:37:05');
+INSERT INTO `cuidadores` VALUES (1,'Ronaldo Ottoni','ronaldoottoni@gmail.com','$2b$12$CrKHlBBYZN8N/xqgj4zJ0uGGVGCmnMb62CvMLIuaQVkRgrvlS.9pK','+5541991471108','2025-06-07 14:45:59'),(2,'Ronaldo Ottoni','ronaldo@medicare.com','$2b$12$PbeMEIX7d2UC3gB/eMVAU.pnZLkV3hsLkXlIzXsl1pZK.E7EjaT42','+5541991471108','2025-06-07 14:49:01'),(3,'Geovana Sales','geovana@medicare.com','$2b$12$wuvSWKUTaTqoiA9cI8vLeu9ZgzvMzjti5zcS285vzApKU.40xcQYG','41991471108','2025-06-14 14:10:04'),(4,'Ana Julia','ana@medicare.com','$2b$12$hEejtc1KwAO5274Rq3u/8e05lwnF8SwrMDi.AMz7aHK5ZPzC0BeBy','41991471108','2025-06-14 14:37:05');
 /*!40000 ALTER TABLE `cuidadores` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

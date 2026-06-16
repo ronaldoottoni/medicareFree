@@ -17,3 +17,7 @@ Pasta schemas - contém os esquemas para validação dos dados que será utiliza
 subir o container (raiz do projeto)
 docker-compose up --build
 
+4. Acessar
+    - Sistema: [http://localhost:3000]
+    - Login: admin@medicare.com
+    - Senha: admin123

@@ -28,7 +28,6 @@ services:
       - db
     command: ["sh", "/wait-for-db.sh", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
-
   frontend:
     build:
       context: ./medicare-frontend
@@ -37,6 +36,7 @@ services:
       - "3000:3000"
     volumes:
       - ./medicare-frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
     command: npm run dev
