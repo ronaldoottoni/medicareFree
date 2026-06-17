@@ -74,6 +74,15 @@ def criar_cuidador_padrao():
             db.add(novo)
             db.commit()
             print("✅ Cuidador padrão criado: admin@medicare.com / admin123")
+            
+            novo = Cuidador(
+                nome="Demo user",
+                email="demo.user@medicare.com",
+                telefone="(00)0000-0000",
+                senha_hash=bcrypt.hash("demouser")
+            )
+            db.add(novo)
+            db.commit()
         else:
             print("ℹ️ Cuidador padrão já existe")
     finally:

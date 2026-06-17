@@ -53,7 +53,7 @@ export default function LoginPage() {
     return (
         <Container>
             <Card>
-                <PageTitle className="grid gap-4 w-full max-w-md mx-auto">MediCare - Login </PageTitle>
+                <PageTitle className="grid gap-4 w-full max-w-md mx-auto">MediCare Free </PageTitle>
                 <Input
                     placeholder="Email"
                     value={email}
@@ -61,7 +61,7 @@ export default function LoginPage() {
                 />
                 <Input
                     type="password"
-                    placeholder="Senha"
+                    placeholder="Password"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                     className="mt-4"

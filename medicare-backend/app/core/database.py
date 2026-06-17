@@ -24,7 +24,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # Base para os modelos
 Base = declarative_base()
 
-
 # Dependência para obter sessão de banco em rotas
 def get_db() -> Session:
     db = SessionLocal()
