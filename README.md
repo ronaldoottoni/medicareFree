@@ -118,7 +118,29 @@ During the development of this project, I worked with:
 
 ## Screenshots
 
-Screenshots will be added in future updates.
+### Login Screen
+
+![Login](screenshots/login-screen.png)
+
+### Caregiver Management
+
+![Caregiver](screenshots/caregiver-management.png)
+
+### Resident Management
+
+![Residents](screenshots/resident-management.png)
+
+### Medication Management
+
+![Medication](screenshots/medication-management.png)
+
+### Appointment Scheduling
+
+![Scheduling](screenshots/appointment-scheduling.png)
+
+### Current Appointments
+
+![Appointments](screenshots/current-appointments.png)
 
 ## Author
 

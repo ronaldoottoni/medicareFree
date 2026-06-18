@@ -37,10 +37,14 @@ def listar_agendamentos(
     logger.info(f"📅 Listando agendamentos pendentes até {agora.isoformat()}")
     logger.info(f"🔒 Filtro 'somenteMeu' ativado: {somenteMeu} (User ID: {user.id})")
 
-    query = db.query(Agendamento).filter(
+    """ query = db.query(Agendamento).filter(
         Agendamento.horario <= agora,
         Agendamento.status == "pendente"
     ).order_by(
+        Agendamento.horario
+    ) """
+    
+    query = db.query(Agendamento).order_by(
         Agendamento.horario
     )
 
